@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import loginBg from "@/assets/auth/LoginArt.jpg";
-import logoImg from "@/assets/logo.png";
+import logoImg from "@/assets/Logo1.svg";
 
 export default function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [errors, setErrors] = useState<{ email?: string; password?: string; general?: string }>({});
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
   const [submitted, setSubmitted] = useState(false);
 
   const validate = () => {
@@ -33,8 +34,8 @@ export default function Login() {
       setErrors(newErrors);
       return;
     }
-    // Placeholder — wire up real auth here
-    setErrors({ general: "Incorrect email or password. Please try again." });
+    // Mock auth — navigate to members area
+    navigate("/members");
   };
 
   const handleChange = (field: "email" | "password", value: string) => {

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import logo1 from "@/assets/Logo1.svg";
 
 const navLinks = [
   { label: "Dashboard", path: "/members/dashboard" },
@@ -27,16 +28,12 @@ export default function MembersNavbar({ theme = "dark" }: { theme?: "light" | "d
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${navBg}`}>
       <div className="px-6 py-3 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-1 cursor-pointer">
+        <Link to="/" className="flex items-center cursor-pointer">
           <img
-            src="https://static.readdy.ai/image/bd3e65a9c2956e637f2d341da068edd0/e146ec11c65cd03aa6e7804f75980bc0.png"
-            alt="Logo"
-            className="w-8 h-8 object-contain"
+            src={logo1}
+            alt="Joseph Wilson Logo"
+            className="h-8 w-auto object-contain"
           />
-          <span className="text-lg font-bold">
-            <span className={logoTextColor}>Joseph</span>
-            <span className="text-[#077DA7]">Wilson</span>
-          </span>
         </Link>
 
         {/* Desktop Nav */}

@@ -99,7 +99,7 @@ export default function MusicProductionPage() {
         <Navbar />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
           <p className="text-[#2596BE] text-[11px] font-bold uppercase tracking-[0.3em] mb-3">Our Services</p>
-          <h1 className="text-3xl md:text-5xl font-black text-white uppercase tracking-widest mb-4">
+          <h1 className="text-3xl md:text-5xl font-bold text-white uppercase tracking-widest mb-4">
             Music Production
           </h1>
           <div className="flex items-center gap-2 text-xs text-gray-400 uppercase tracking-widest">

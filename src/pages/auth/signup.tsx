@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import loginBg from "@/assets/auth/LoginArt.jpg";
-import logoImg from "@/assets/logo.png";
+import logoImg from "@/assets/Logo1.svg";
 
 export default function Signup() {
+  const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -51,7 +52,8 @@ export default function Signup() {
       return;
     }
     setErrors({});
-    // Placeholder — wire up real auth here
+    // Mock auth — navigate to members area
+    navigate("/members");
   };
 
   const clearError = (field: keyof typeof errors) => {

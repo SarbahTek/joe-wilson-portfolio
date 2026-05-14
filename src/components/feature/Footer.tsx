@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import socialMediaFooterBg from "../../assets/socialmediafooter.jpg";
+import logo1 from "../../assets/Logo1.svg";
 
 const socialLinks = [
   { label: "FACEBOOK", icon: "ri-facebook-fill", href: "#" },
@@ -49,16 +50,12 @@ export default function Footer() {
       <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-10 px-7 py-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-14 lg:py-14">
         {/* Logo & Socials */}
         <div className="text-center sm:text-left">
-          <Link to="/" className="inline-flex items-center gap-1 mb-4 cursor-pointer">
+          <Link to="/" className="inline-flex items-center mb-4 cursor-pointer">
             <img
-              src="https://static.readdy.ai/image/bd3e65a9c2956e637f2d341da068edd0/e146ec11c65cd03aa6e7804f75980bc0.png"
-              alt="Logo"
-              className="w-7 h-7 object-contain"
+              src={logo1}
+              alt="Joseph Wilson Logo"
+              className="h-10 w-auto object-contain"
             />
-            <span className="text-base font-bold">
-              <span className="text-white">Joseph</span>
-              <span className="text-[#077DA7]">Wilson</span>
-            </span>
           </Link>
           <div className="flex gap-4 mt-4 justify-center sm:justify-start">
             <a href="#" rel="nofollow" className="flex h-6 w-6 items-center justify-center text-gray-300 hover:text-white cursor-pointer">

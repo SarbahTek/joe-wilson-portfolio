@@ -26,7 +26,7 @@ export default function ContactPage() {
         />
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
-          <h1 className="text-[32px] md:text-[40px] font-black text-white uppercase mb-3 font-inter">
+          <h1 className="text-3xl md:text-5xl font-bold text-white uppercase tracking-widest mb-3 font-inter">
             GET IN TOUCH
           </h1>
           <div className="flex items-center gap-2 text-[12px] text-gray-300 font-inter">

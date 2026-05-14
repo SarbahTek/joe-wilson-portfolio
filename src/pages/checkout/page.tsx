@@ -34,7 +34,7 @@ export default function CheckoutPage() {
           <Navbar />
           <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
             <h1
-              className="font-inter text-[18px] md:text-[30px] font-black text-white uppercase mb-1.5 md:mb-2"
+              className="text-3xl md:text-5xl font-bold text-white uppercase tracking-widest mb-1.5 md:mb-2"
               style={{ letterSpacing: "0.3em" }}
             >
               Checkout

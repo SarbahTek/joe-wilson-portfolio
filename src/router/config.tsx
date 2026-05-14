@@ -20,11 +20,18 @@ import ContactPage from "../pages/contact/page";
 import MembersPage from "../pages/members/page";
 import MasterclassDetailPage from "../pages/members/MasterclassDetailPage";
 import AccountPage from "../pages/members/account/page";
+import VideoLessonPage from "../pages/members/VideoLessonPage"
+import DashboardPage from "../pages/members/dashboard/page"
+import TestimonialsPage from "../pages/testimonials/page"
 
 const routes: RouteObject[] = [
   {
     path: "/",
     element: <Home />,
+  },
+  {
+    path: "/testimonials",
+    element: <TestimonialsPage />,
   },
   {
     path: "/login",
@@ -63,12 +70,20 @@ const routes: RouteObject[] = [
     element: <MembersPage />,
   },
   {
+    path: "/members/dashboard",
+    element: <DashboardPage />,
+  },
+  {
     path: "/members/account",
     element: <AccountPage />,
   },
   {
     path: "/members/:cohortId",
     element: <MasterclassDetailPage />,
+  },
+  {
+    path: "/members/:cohortId/session/:sessionId",
+    element: <VideoLessonPage />,
   },
   {
     path: "/media",

@@ -5,6 +5,7 @@ import Footer from "@/components/feature/Footer";
 import CTASection from "@/components/feature/CTASection";
 import { cohorts, Cohort } from "@/mocks/cohorts";
 import { Clock } from "lucide-react";
+import heroImg from "@/assets/home/basemasterclass2.jpg";
 
 const PAGE_SIZE = 6;
 
@@ -27,14 +28,14 @@ export default function MembersPage() {
       <section
         className="relative h-[250px] md:h-[350px] w-full"
         style={{
-          backgroundImage: `url(https://readdy.ai/api/search-image?query=dark%20concert%20stage%20dramatic%20lighting%20musician%20performing%2C%20deep%20shadows%20moody%20atmosphere%2C%20professional%20music%20photography%2C%20dark%20teal%20and%20black%20tones%2C%20cinematic%20wide%20shot%2C%20stage%20lights%20beams%2C%20crowd%20silhouettes&width=1440&height=380&seq=masterclass-member-hero&orientation=landscape)`,
+          backgroundImage: `url(${heroImg})`,
           backgroundSize: "cover",
           backgroundPosition: "center top",
         }}
       >
         <div className="absolute inset-0 bg-black/50" />
         <div className="absolute inset-0 flex flex-col items-center justify-center pt-8">
-          <h1 className="text-[32px] md:text-[48px] font-black text-white uppercase tracking-widest mb-1 md:mb-2">
+          <h1 className="text-3xl md:text-5xl font-bold text-white uppercase tracking-widest mb-1 md:mb-2">
             MASTERCLASS
           </h1>
           <div className="flex items-center gap-2 text-[10px] md:text-[12px] text-white/80 font-medium tracking-widest">
@@ -53,7 +54,7 @@ export default function MembersPage() {
           Available Cohorts
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
           {cohorts.slice(0, visibleCount).map((cohort) => (
             <CohortCard key={cohort.id} cohort={cohort} />
           ))}
@@ -81,7 +82,7 @@ function CohortCard({ cohort }: { cohort: Cohort }) {
   const isActive = cohort.status === "ACTIVE";
 
   return (
-    <div className="flex flex-col bg-white overflow-hidden group">
+    <div className="flex flex-col bg-white overflow-hidden group h-full">
       {/* Image Container */}
       <div className="relative aspect-[4/3] overflow-hidden">
         <img
@@ -99,7 +100,7 @@ function CohortCard({ cohort }: { cohort: Cohort }) {
       </div>
 
       {/* Content */}
-      <div className="flex flex-col py-6">
+      <div className="flex flex-col flex-1 py-6">
         <h3 className="text-lg font-bold text-[#1a1a1a] mb-2 leading-tight">
           {cohort.title}
         </h3>
@@ -118,7 +119,7 @@ function CohortCard({ cohort }: { cohort: Cohort }) {
         {/* Button */}
         <Link
           to={`/members/${cohort.id}`}
-          className={`w-full py-4 text-[10px] font-bold uppercase tracking-widest transition-colors rounded-none text-center ${isActive
+          className={`mt-auto w-full py-4 text-[10px] font-bold uppercase tracking-widest transition-colors rounded-none text-center ${isActive
               ? "bg-[#077DA7] text-white hover:bg-[#05637f] border border-[#077DA7]"
               : "bg-white text-[#1a1a1a] border border-gray-300 hover:border-[#1a1a1a]"
             }`}

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import logo1 from "@/assets/Logo1.svg";
 
 const navLinks = [
   { label: "Home", path: "/" },
@@ -9,7 +10,7 @@ const navLinks = [
   { label: "Music", path: "/music" },
   { label: "Media", path: "/media" },
   { label: "Contact", path: "/contact" },
-  { label: "Testimonial", path: "/testimonial" },
+  { label: "Testimonials", path: "/testimonials" },
 ];
 
 interface NavbarProps {
@@ -37,16 +38,12 @@ export default function Navbar({ light = false }: NavbarProps) {
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${navBg}`}>
       <div className="px-6 py-3 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-1 cursor-pointer">
+        <Link to="/" className="flex items-center cursor-pointer">
           <img
-            src="https://static.readdy.ai/image/bd3e65a9c2956e637f2d341da068edd0/e146ec11c65cd03aa6e7804f75980bc0.png"
-            alt="Logo"
-            className="w-8 h-8 object-contain"
+            src={logo1}
+            alt="Joseph Wilson Logo"
+            className="h-9 w-auto object-contain"
           />
-          <span className="text-lg font-bold">
-            <span className={light ? "text-gray-900" : "text-white"}>Joseph</span>
-            <span className="text-[#077DA7]">Wilson</span>
-          </span>
         </Link>
 
         {/* Desktop Nav */}
@@ -105,7 +102,7 @@ export default function Navbar({ light = false }: NavbarProps) {
           </div>
 
           <div className="flex flex-col gap-8 font-inter px-4 md:px-8">
-            {navLinks.filter(link => link.path !== "/testimonial").map((link) => (
+            {navLinks.filter(link => link.path !== "/testimonials").map((link) => (
               <Link
                 key={link.path}
                 to={link.path}

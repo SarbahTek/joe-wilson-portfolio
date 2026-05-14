@@ -8,7 +8,7 @@ export default function AboutHero() {
       />
       <div className="absolute inset-0 bg-black/35" />
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
-        <h1 className="text-2xl md:text-3xl font-black text-white tracking-widest uppercase mb-2">
+        <h1 className="text-3xl md:text-5xl font-bold text-white uppercase tracking-widest mb-2">
           About Me
         </h1>
         <div className="flex items-center gap-2 text-xs text-gray-400 uppercase tracking-widest">
