@@ -8,6 +8,8 @@ import {
   ChevronUp,
 } from 'lucide-react';
 import { ALL_USERS, type PaymentStatus } from '@/data/users';
+import DatePicker from '@/components/ui/DatePicker';
+import { ddmmyyyyToIso, isoToDdmmyyyy } from '@/lib/dateFormat';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -74,6 +76,8 @@ export default function UserDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [masterclassOpen, setMasterclassOpen] = useState(true);
+  const [startDate, setStartDate] = useState('15/05/2025');
+  const [endDate, setEndDate] = useState('12/05/2026');
 
   const user = ALL_USERS.find(u => u.id === id);
 
@@ -172,19 +176,20 @@ export default function UserDetailPage() {
         {/* Filters */}
         <div className="flex flex-wrap items-center gap-3 mb-4">
           {/* Start date */}
-          <div className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 text-[12px] text-gray-600">
-            <Calendar size={12} className="text-gray-400" />
-            <span>15/05/2025</span>
-          </div>
+          <DatePicker
+            value={ddmmyyyyToIso(startDate)}
+            onChange={iso => setStartDate(isoToDdmmyyyy(iso))}
+          />
 
           {/* Dash separator */}
           <span className="text-gray-400">—</span>
 
           {/* End date */}
-          <div className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 text-[12px] text-gray-600">
-            <Calendar size={12} className="text-gray-400" />
-            <span>12/05/2026</span>
-          </div>
+          <DatePicker
+            value={ddmmyyyyToIso(endDate)}
+            onChange={iso => setEndDate(isoToDdmmyyyy(iso))}
+            dropdownAlign="right"
+          />
 
           {/* Status filter */}
           <div className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 text-[12px] text-gray-600 cursor-pointer">

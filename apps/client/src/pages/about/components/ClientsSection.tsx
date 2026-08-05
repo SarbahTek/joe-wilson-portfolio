@@ -1,25 +1,36 @@
-import client1 from "@/assets/about/client1.png";
-import client2 from "@/assets/about/client2.png";
-import client3 from "@/assets/about/client3.png";
-import client4 from "@/assets/about/client4.png";
-import client5 from "@/assets/about/client5.png";
-import client6 from "@/assets/about/client6.png";
-import client7 from "@/assets/about/client7.png";
-import client8 from "@/assets/about/client8.png";
-import client9 from "@/assets/about/client9.png";
-import client10 from "@/assets/about/client10.png";
-
-const clientLogos = [
-  { name: "Client 1", src: client1 },
-  { name: "Client 2", src: client2 },
-  { name: "Client 3", src: client3 },
-  { name: "Client 4", src: client4 },
-  { name: "Client 5", src: client5 },
-  { name: "Client 6", src: client6 },
-  { name: "Client 7", src: client7 },
-  { name: "Client 8", src: client8 },
-  { name: "Client 9", src: client9 },
-  { name: "Client 10", src: client10 },
+const clientGroups = [
+  {
+    region: "🌍 Africa",
+    artists: [
+      "Nii Okai", "Koda", "Joe Mettle", "MOGmusic",
+      "Nathaniel Bassey", "Dunsin Oyekan", "Diana Hamilton",
+      "Daniel Twum", "Elder Mireku", "Daughters of Glorious Jesus",
+      "Cwesi Oteng", "Siisi Baidoo", "Preye Odede",
+      "Sammy Okposo", "Cecy Twum", "Mary Ghansah",
+    ],
+  },
+  {
+    region: "🇬🇧 United Kingdom",
+    artists: [
+      "Evans Ogboi", "Emmanuel Smith", "Lou Fellingham",
+      "Noel Robinson", "Checko Ankrah", "Sarah Tiebo",
+      "Shekinah", "Lydia Kabs", "Samuel Refined",
+    ],
+  },
+  {
+    region: "🇺🇸 America",
+    artists: [
+      "Jason Nelson", "Jonathan Nelson", "Donnie McClurkin",
+      "Israel Houghton", "Todd Galberth",
+    ],
+  },
+  {
+    region: "Afrobeats / Mainstream",
+    artists: [
+      "Runtown", "BLAQBONES", "Victony",
+      "Maleek Berry", "Sarkodie", "Edem", "Lily Atkinson",
+    ],
+  },
 ];
 
 export default function ClientsSection() {
@@ -30,22 +41,29 @@ export default function ClientsSection() {
           className="text-center font-inter font-black uppercase tracking-[0.2em] mb-12"
           style={{ fontSize: "clamp(16px,2vw,24px)", color: "#111" }}
         >
-          My Clients
+          Artists I&apos;ve Worked With
         </h2>
 
-        {/* Responsive Grid Layout with individual borders and gaps */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 md:gap-6">
-          {clientLogos.map((client, i) => (
-            <div
-              key={i}
-              className="flex items-center justify-center overflow-hidden border border-gray-200"
-              style={{ height: "auto", aspectRatio: "16/9" }}
-            >
-              <img
-                src={client.src}
-                alt={client.name}
-                className="w-full h-full object-contain p-4"
-              />
+        <div className="flex flex-col gap-10">
+          {clientGroups.map((group) => (
+            <div key={group.region}>
+              <p
+                className="font-inter font-bold uppercase tracking-widest mb-4"
+                style={{ fontSize: "11px", color: "#077DA7" }}
+              >
+                {group.region}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {group.artists.map((name) => (
+                  <span
+                    key={name}
+                    className="inline-block border border-gray-200 font-inter text-xs text-gray-700 px-3 py-1.5"
+                    style={{ letterSpacing: "0.04em" }}
+                  >
+                    {name}
+                  </span>
+                ))}
+              </div>
             </div>
           ))}
         </div>

@@ -49,14 +49,14 @@ export default function ContactPreviewSection() {
           <div className="flex flex-col gap-[clamp(24px,3vw,40px)]">
             {[
               {
-                address: "2972 Westheimer Rd. Santa Ana",
-                email: "info@la-studioweb.com",
-                phone: "(702) 555-0122",
+                address: "United Kingdom",
+                email: "booking@joewilsonbass.com",
+                phone: "Available internationally",
               },
               {
-                address: "4517 Washington Ave. Manchester",
-                email: "info@la-studioweb.com",
-                phone: "(704) 555-0127",
+                address: "Africa · America · Worldwide",
+                email: "info@joewilsonbass.com",
+                phone: "Regular tours across Ghana, Nigeria, USA",
               },
             ].map(({ address, email, phone }, i) => (
               <div key={i} className="flex gap-4 items-start">

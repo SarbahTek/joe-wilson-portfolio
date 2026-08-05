@@ -51,8 +51,8 @@ export default function AboutContact() {
                 <i className="ri-map-pin-fill text-[#1ab8e8] text-base" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-gray-900">New York, USA</p>
-                <p className="text-xs text-gray-500">123 Music Avenue, Manhattan, NY 10001</p>
+                <p className="text-sm font-semibold text-gray-900">United Kingdom</p>
+                <p className="text-xs text-gray-500">Based in the UK — available internationally</p>
               </div>
             </div>
             <div className="flex gap-3">
@@ -60,26 +60,8 @@ export default function AboutContact() {
                 <i className="ri-map-pin-fill text-[#1ab8e8] text-base" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-gray-900">London, UK</p>
-                <p className="text-xs text-gray-500">45 Bass Street, Soho, London W1D 3QY</p>
-              </div>
-            </div>
-            <div className="flex gap-3">
-              <div className="w-5 h-5 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <i className="ri-map-pin-fill text-[#1ab8e8] text-base" />
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-gray-900">Los Angeles, USA</p>
-                <p className="text-xs text-gray-500">789 Groove Blvd, Hollywood, CA 90028</p>
-              </div>
-            </div>
-            <div className="flex gap-3">
-              <div className="w-5 h-5 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <i className="ri-phone-fill text-[#1ab8e8] text-base" />
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-gray-900">+1 (212) 555-0198</p>
-                <p className="text-xs text-gray-500">Mon – Fri, 9am – 6pm EST</p>
+                <p className="text-sm font-semibold text-gray-900">Africa &amp; America</p>
+                <p className="text-xs text-gray-500">Regular touring across Ghana, Nigeria, USA &amp; beyond</p>
               </div>
             </div>
             <div className="flex gap-3">
@@ -87,7 +69,7 @@ export default function AboutContact() {
                 <i className="ri-mail-fill text-[#1ab8e8] text-base" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-gray-900">booking@josephwilson.com</p>
+                <p className="text-sm font-semibold text-gray-900">booking@joewilsonbass.com</p>
                 <p className="text-xs text-gray-500">For bookings and inquiries</p>
               </div>
             </div>

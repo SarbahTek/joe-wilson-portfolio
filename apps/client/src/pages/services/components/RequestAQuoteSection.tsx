@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import dropMeALineImg from "@/assets/home/homedropmealine.jpg";
+import DatePicker from "@/components/ui/DatePicker";
 import { useSubmitQuote } from "@/hooks/content/useQuotes";
 import { getErrorMessage } from "@/lib/errors";
 
@@ -155,11 +156,9 @@ export default function RequestAQuoteSection({ currentServiceId }: RequestAQuote
               </div>
               <div>
                 <label className="block text-[11px] font-bold uppercase tracking-[0.15em] text-[#111] mb-2">Event Date</label>
-                <input
-                  type="date"
+                <DatePicker
                   value={form.eventDate}
-                  onChange={e => setForm(f => ({ ...f, eventDate: e.target.value }))}
-                  className="w-full bg-transparent border-b border-gray-400 py-2.5 text-sm text-gray-700 focus:border-[#2596BE] focus:outline-none transition-colors"
+                  onChange={date => setForm(f => ({ ...f, eventDate: date }))}
                 />
               </div>
             </div>

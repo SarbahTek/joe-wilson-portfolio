@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useRef } from 'react';
 import {
   Search,
-  Calendar,
   ChevronDown,
   Upload,
   FileText,
@@ -15,6 +14,7 @@ import {
   FileUp
 } from 'lucide-react';
 import { INITIAL_MEDIA, type MediaItem } from '@/data/media';
+import DatePicker from '@/components/ui/DatePicker';
 
 export default function MediaLibraryPage() {
   const [mediaList, setMediaList] = useState<MediaItem[]>(() => INITIAL_MEDIA);
@@ -220,29 +220,11 @@ export default function MediaLibraryPage() {
 
           {/* Date range pickers */}
           <div className="flex items-center gap-2 w-full sm:w-auto">
-            {/* Start Date */}
-            <div className="flex items-center gap-1.5 px-3 py-2 bg-white border border-gray-200 text-[12px] text-gray-700 w-full sm:w-auto relative">
-              <Calendar size={12} className="text-gray-400 flex-shrink-0" />
-              <input
-                type="date"
-                value={startDate}
-                onChange={e => setStartDate(e.target.value)}
-                className="focus:outline-none text-[12px] bg-transparent text-gray-700 cursor-pointer w-full"
-              />
-            </div>
-            
+            <DatePicker value={startDate} onChange={setStartDate} className="w-full sm:w-auto" />
+
             <span className="text-gray-400 flex-shrink-0">—</span>
 
-            {/* End Date */}
-            <div className="flex items-center gap-1.5 px-3 py-2 bg-white border border-gray-200 text-[12px] text-gray-700 w-full sm:w-auto relative">
-              <Calendar size={12} className="text-gray-400 flex-shrink-0" />
-              <input
-                type="date"
-                value={endDate}
-                onChange={e => setEndDate(e.target.value)}
-                className="focus:outline-none text-[12px] bg-transparent text-gray-700 cursor-pointer w-full"
-              />
-            </div>
+            <DatePicker value={endDate} onChange={setEndDate} className="w-full sm:w-auto" dropdownAlign="right" />
           </div>
 
           {/* Type Dropdown */}

@@ -16,6 +16,8 @@ import {
 } from 'lucide-react';
 import { masterclasses, statusConfig, type Status, type Masterclass } from '@/data/masterclasses';
 import img1 from '@/assets/bassmasterclass1.jpg';
+import DatePicker from '@/components/ui/DatePicker';
+import { ddmmyyyyToIso, isoToDdmmyyyy } from '@/lib/dateFormat';
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
 
@@ -193,6 +195,7 @@ export default function MasterclassesPage() {
 
   const handleCreateMasterclass = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!modalStartDate || !modalEndDate) return;
     const newMc: Masterclass = {
       id: list.length > 0 ? Math.max(...list.map(m => m.id)) + 1 : 1,
       title: modalTitle,
@@ -255,25 +258,16 @@ export default function MasterclassesPage() {
 
         {/* Date range */}
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-2 bg-white border border-gray-200 px-3 py-2">
-            <Calendar size={13} className="text-gray-400" />
-            <input
-              type="text"
-              value={startDate}
-              onChange={e => setStartDate(e.target.value)}
-              className="text-[13px] text-gray-700 bg-transparent focus:outline-none w-[88px]"
-            />
-          </div>
+          <DatePicker
+            value={ddmmyyyyToIso(startDate)}
+            onChange={iso => setStartDate(isoToDdmmyyyy(iso))}
+          />
           <span className="text-gray-400 text-sm">—</span>
-          <div className="flex items-center gap-2 bg-white border border-gray-200 px-3 py-2">
-            <Calendar size={13} className="text-gray-400" />
-            <input
-              type="text"
-              value={endDate}
-              onChange={e => setEndDate(e.target.value)}
-              className="text-[13px] text-gray-700 bg-transparent focus:outline-none w-[88px]"
-            />
-          </div>
+          <DatePicker
+            value={ddmmyyyyToIso(endDate)}
+            onChange={iso => setEndDate(isoToDdmmyyyy(iso))}
+            dropdownAlign="right"
+          />
         </div>
       </div>
 
@@ -386,33 +380,21 @@ export default function MasterclassesPage() {
                   <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
                     Start date
                   </label>
-                  <div className="relative flex items-center">
-                    <Calendar size={13} className="absolute left-3.5 text-gray-400 pointer-events-none" />
-                    <input
-                      type="text"
-                      required
-                      value={modalStartDate}
-                      onChange={e => setModalStartDate(e.target.value)}
-                      className="w-full bg-white border border-gray-200 pl-9 pr-3.5 py-2 text-[13px] text-gray-700
-                        focus:outline-none focus:ring-1 focus:ring-brand focus:border-brand transition-all"
-                    />
-                  </div>
+                  <DatePicker
+                    variant="form"
+                    value={ddmmyyyyToIso(modalStartDate)}
+                    onChange={iso => setModalStartDate(isoToDdmmyyyy(iso))}
+                  />
                 </div>
                 <div>
                   <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
                     End date
                   </label>
-                  <div className="relative flex items-center">
-                    <Calendar size={13} className="absolute left-3.5 text-gray-400 pointer-events-none" />
-                    <input
-                      type="text"
-                      required
-                      value={modalEndDate}
-                      onChange={e => setModalEndDate(e.target.value)}
-                      className="w-full bg-white border border-gray-200 pl-9 pr-3.5 py-2 text-[13px] text-gray-700
-                        focus:outline-none focus:ring-1 focus:ring-brand focus:border-brand transition-all"
-                    />
-                  </div>
+                  <DatePicker
+                    variant="form"
+                    value={ddmmyyyyToIso(modalEndDate)}
+                    onChange={iso => setModalEndDate(isoToDdmmyyyy(iso))}
+                  />
                 </div>
               </div>
 

@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import {
   Download,
-  Calendar,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -11,6 +10,7 @@ import {
   Search
 } from 'lucide-react';
 import { INITIAL_PAYMENTS, type PaymentRecord } from '@/data/payments';
+import DatePicker from '@/components/ui/DatePicker';
 
 export default function PaymentsPage() {
   const [payments, setPayments] = useState<PaymentRecord[]>(() => INITIAL_PAYMENTS);
@@ -207,35 +207,26 @@ export default function PaymentsPage() {
         
         {/* Date range pickers */}
         <div className="flex items-center gap-2 w-full md:w-auto">
-          {/* Start Date */}
-          <div className="flex items-center gap-1.5 px-3 py-2 bg-white border border-gray-200 text-[12px] text-gray-700 w-full md:w-auto relative">
-            <Calendar size={12} className="text-gray-400 flex-shrink-0" />
-            <input
-              type="date"
-              value={startDate}
-              onChange={e => {
-                setStartDate(e.target.value);
-                setCurrentPage(1);
-              }}
-              className="focus:outline-none text-[12px] bg-transparent text-gray-700 cursor-pointer w-full"
-            />
-          </div>
-          
+          <DatePicker
+            value={startDate}
+            onChange={date => {
+              setStartDate(date);
+              setCurrentPage(1);
+            }}
+            className="w-full md:w-auto"
+          />
+
           <span className="text-gray-400 flex-shrink-0">—</span>
 
-          {/* End Date */}
-          <div className="flex items-center gap-1.5 px-3 py-2 bg-white border border-gray-200 text-[12px] text-gray-700 w-full md:w-auto relative">
-            <Calendar size={12} className="text-gray-400 flex-shrink-0" />
-            <input
-              type="date"
-              value={endDate}
-              onChange={e => {
-                setEndDate(e.target.value);
-                setCurrentPage(1);
-              }}
-              className="focus:outline-none text-[12px] bg-transparent text-gray-700 cursor-pointer w-full"
-            />
-          </div>
+          <DatePicker
+            value={endDate}
+            onChange={date => {
+              setEndDate(date);
+              setCurrentPage(1);
+            }}
+            className="w-full md:w-auto"
+            dropdownAlign="right"
+          />
         </div>
 
         {/* Status Dropdown */}

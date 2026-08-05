@@ -4,25 +4,25 @@ import avatar3 from "@/assets/home/testimonialheadshot3.jpg";
 
 const endorsements = [
   {
-    name: "Marcus Thorne",
-    role: "Lead Bass, Greater Faith Choir",
+    name: "Noel Robinson",
+    role: "Worship Leader, UK",
     avatar: avatar1,
     quote:
-      "The way Elias breaks down chord substitutions changed my entire approach to church services. It's more than bass; it's musicality.",
+      "Joe Wilson's musicality is extraordinary. His ability to lock in with any drummer and lead a band while playing bass is a rare gift. A truly consummate professional.",
   },
   {
-    name: "David Chen",
-    role: "Session Player",
+    name: "Jason Nelson",
+    role: "Gospel Artist, USA",
     avatar: avatar2,
     quote:
-      "This is the first course that actually addresses the spirit of the music, not just the scales. Truly high-end education.",
+      "Working with Joe is seamless. He brings such depth of knowledge — both as a bass player and a music director — that every session feels elevated from the first note.",
   },
   {
-    name: "Sarah Jenkins",
-    role: "Independent Artist",
+    name: "Joe Mettle",
+    role: "Gospel Artist, Ghana",
     avatar: avatar3,
     quote:
-      "From technique to gear knowledge, this masterclass covers it all. The premium feel of the platform makes learning a joy.",
+      "Joe Wilson's mastery of bass and his people-first approach to music make him one of the most reliable professionals I have had the pleasure of working with across Africa.",
   },
 ];
 

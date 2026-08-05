@@ -7,7 +7,7 @@ import livePerformanceImg from "@/assets/home/servicesliveperformance.jpg";
 import { useTestimonialCards } from "@/hooks/content/useTestimonialCards";
 
 export default function TestimonialsPage() {
-  const { cards: testimonials, isLoading } = useTestimonialCards();
+  const { cards: testimonials } = useTestimonialCards();
 
   return (
     <div className="min-h-screen bg-white">
@@ -59,11 +59,6 @@ export default function TestimonialsPage() {
         className="w-full bg-black bg-cover bg-center bg-no-repeat px-4 py-16 sm:px-6 md:py-24"
         style={{ backgroundImage: `url(${homeTestimonials})` }}
       >
-        {isLoading && (
-          <div className="flex justify-center py-12">
-            <i className="ri-loader-4-line animate-spin text-3xl text-white" />
-          </div>
-        )}
         <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-3">
           {testimonials.map((t, i) => (
             <div key={i} className="flex flex-col border border-white/20 bg-transparent p-6 md:min-h-[280px]">

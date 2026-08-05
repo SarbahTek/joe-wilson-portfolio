@@ -1,13 +1,8 @@
 import { Link } from "react-router-dom";
 import socialMediaFooterBg from "../../assets/socialmediafooter.jpg";
 import logo1 from "../../assets/Logo1.svg";
-
-const socialLinks = [
-  { label: "FACEBOOK", icon: "ri-facebook-fill", href: "#" },
-  { label: "TWITTER", icon: "ri-twitter-x-fill", href: "#" },
-  { label: "YOUTUBE", icon: "ri-youtube-fill", href: "#" },
-  { label: "SPOTIFY", icon: "ri-spotify-fill", href: "#" },
-];
+import albumArt from "../../assets/music/milestonecover.jpg";
+import { footerSocialBar, footerSocialIcons } from "@/config/social";
 
 const upcomingEvents = [
   { date: "Apr 18", event: "London Proms Apollo" },
@@ -28,11 +23,13 @@ export default function Footer() {
         style={{ backgroundImage: `url(${socialMediaFooterBg})` }}
       >
         <div className="mx-auto grid max-w-[1400px] grid-cols-2 md:grid-cols-4">
-          {socialLinks.map((s, i) => (
+          {footerSocialBar.map((s, i) => (
             <a
-              key={i}
+              key={s.label}
               href={s.href}
-              rel="nofollow"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={s.label}
               className="flex items-center justify-center gap-4 border-white/10 py-6 transition-colors hover:bg-white/5 cursor-pointer md:border-l md:first:border-l-0"
             >
               <div className="flex h-5 w-5 items-center justify-center">
@@ -58,15 +55,18 @@ export default function Footer() {
             />
           </Link>
           <div className="flex gap-4 mt-4 justify-center sm:justify-start">
-            <a href="#" rel="nofollow" className="flex h-6 w-6 items-center justify-center text-gray-300 hover:text-white cursor-pointer">
-              <i className="ri-apple-fill text-sm" />
-            </a>
-            <a href="#" rel="nofollow" className="flex h-6 w-6 items-center justify-center text-gray-300 hover:text-white cursor-pointer">
-              <i className="ri-soundcloud-fill text-sm" />
-            </a>
-            <a href="#" rel="nofollow" className="flex h-6 w-6 items-center justify-center text-gray-300 hover:text-white cursor-pointer">
-              <i className="ri-spotify-fill text-sm" />
-            </a>
+            {footerSocialIcons.map((s) => (
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={s.label}
+                className="flex h-6 w-6 items-center justify-center text-gray-300 hover:text-white cursor-pointer"
+              >
+                <i className={`${s.icon} text-sm`} />
+              </a>
+            ))}
           </div>
         </div>
 
@@ -119,9 +119,9 @@ export default function Footer() {
           </h4>
           <div className="mx-auto h-[190px] w-[190px] overflow-hidden sm:mx-0">
             <img
-              src="https://readdy.ai/api/search-image?query=album%20cover%20art%20astronaut%20space%20dark%20cinematic%20sci-fi%20music%20album%20artwork%20with%20title%20text%2C%20deep%20space%20background%2C%20dramatic%20lighting%2C%20professional%20album%20design&width=128&height=128&seq=album-cover-1&orientation=squarish"
-              alt="Latest Album"
-              className="w-full h-full object-cover object-top"
+              src={albumArt}
+              alt="Milestone — Latest Album"
+              className="w-full h-full object-cover"
             />
           </div>
         </div>

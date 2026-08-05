@@ -4,15 +4,15 @@ import band3 from "@/assets/about/theband3.png";
 import experienceBg from "@/assets/about/experiencebackground.jpg";
 
 const artists = [
-  "Major Gospel Artists",
-  "International Soloists",
-  "Contemporary Worship Teams",
+  "Nathaniel Bassey · Dunsin Oyekan",
+  "Joe Mettle · Diana Hamilton · Nii Okai",
+  "Donnie McClurkin · Israel Houghton",
 ];
 
 const stages = [
-  "Global Arenas",
-  "Live DVD Recordings",
-  "Festival Mainstages",
+  "Africa · UK · America",
+  "Live DVDs · Tours · Concerts",
+  "Gospel · CCM · Afrobeats",
 ];
 
 const iconButtons = [
@@ -55,7 +55,7 @@ export default function ExperienceSection() {
                 className="font-inter font-black leading-none mb-3"
                 style={{ fontSize: "clamp(48px,6vw,72px)", color: "#00e5ff" }}
               >
-                12+
+                17+
               </span>
               <p
                 className="font-inter font-bold text-white mb-2"

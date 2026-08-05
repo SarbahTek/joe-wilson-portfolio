@@ -1,22 +1,23 @@
 import recordingIcon from "@/assets/about/recording.png";
 import mixingIcon from "@/assets/about/mixing.png";
 import masteringIcon from "@/assets/about/mastering.png";
+import bioPhoto from "@/assets/about/biophoto.jpg";
 
 const services = [
   {
     icon: recordingIcon,
-    title: "RECORDING",
-    text: "Velit egestas dui id ornare arcu. Nibh sit amet commodo nulla facilisi nullam vehicula. Arcu dictum varius duis at.",
+    title: "BASS PERFORMANCE",
+    text: "17 years of live bass performance across global stages — from intimate venues to sold-out arenas spanning Africa, the UK, and America.",
   },
   {
     icon: mixingIcon,
-    title: "MIXING",
-    text: "Velit egestas dui id ornare arcu. Nibh sit amet commodo nulla facilisi nullam vehicula. Arcu dictum varius duis at.",
+    title: "MUSIC DIRECTION",
+    text: "Strategic creative leadership for artists and productions — bridging artistic vision with practical execution on stages and recordings worldwide.",
   },
   {
     icon: masteringIcon,
-    title: "MASTERING",
-    text: "Velit egestas dui id ornare arcu. Nibh sit amet commodo nulla facilisi nullam vehicula. Arcu dictum varius duis at.",
+    title: "AUDIO ENGINEERING",
+    text: "Expert audio engineering and project management for live productions, studio sessions, tours, and events across multiple genres.",
   },
 ];
 
@@ -32,10 +33,10 @@ export default function BioSection() {
             style={{ minHeight: "clamp(260px,45vw,520px)" }}
           >
             <img
-              src="https://storage.readdy-site.link/project_files/c0c1db3d-22db-46b5-85e9-428db5f1168e/b505d7f1-a2cb-4b31-94d3-6f633474031c_871badd755a5afb1a73b6976ceb11bc693cce248.jpg?v=9b1cc5aeb513872a2a091ef6b7fb7e81"
+              src={bioPhoto}
               alt="Joseph Wilson"
-              className="absolute inset-0 w-full h-full object-cover object-top"
-              style={{ filter: "grayscale(100%)" }}
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{ filter: "grayscale(100%)", objectPosition: "50% 20%" }}
             />
             {/* Play button overlay */}
             <div className="absolute inset-0 flex items-center justify-center">
@@ -66,13 +67,13 @@ export default function BioSection() {
               className="font-inter leading-relaxed mb-6"
               style={{ fontSize: 14, color: "#4B5563" }}
             >
-              Joseph Wilson is a UK-based bass guitarist, music director, and producer known for his deep groove, musical sensitivity, and commitment to excellence in gospel and live music. With years of experience across church platforms, live events, and studio sessions, he has developed a sound that supports and elevates every musical moment.
+              Joe Wilson is a seasoned music professional whose 17-year career spans performance, production, and project leadership. Beginning as a bass player, he built a reputation for musical excellence, creativity, and reliability — which naturally led him into roles as a Music Director, Audio Engineer, Event Manager, and Music Consultant.
             </p>
             <p
               className="font-inter leading-relaxed"
               style={{ fontSize: 14, color: "#4B5563" }}
             >
-              Whether leading bands, recording sessions, or performing on stage, Joseph focuses on serving the music with precision, tone, and feel. Passionate about growth and mentorship, he is dedicated to helping other musicians develop their skill, confidence, and understanding of bass in both live and studio environments.
+              Throughout his career, Joe has worked with a diverse range of international artists across Gospel, Contemporary Christian, Afrobeats, and mainstream secular music. His versatility and ability to adapt to different creative environments have made him a trusted collaborator on stages, recordings, tours, and live productions around the world.
             </p>
           </div>
         </div>

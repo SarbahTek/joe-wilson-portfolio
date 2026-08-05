@@ -1,6 +1,8 @@
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import heroBackground from "../../../assets/home/homehero.png";
+import heroBackground from "../../../assets/home/homehero.jpeg";
+import albumArt from "../../../assets/music/milestonecover.jpg";
+import { socialLinks } from "@/config/social";
 
 export default function HeroSection() {
   const [playing, setPlaying] = useState(false);
@@ -53,7 +55,7 @@ export default function HeroSection() {
               letterSpacing: "0.06em"
             }}
           >
-            BASS GUITARIST &bull; MUSIC DIRECTOR &bull; PRODUCER
+            BASS GUITARIST &bull; MUSIC DIRECTOR &bull; AUDIO ENGINEER &bull; PRODUCER
           </span>
         </div>
 
@@ -125,8 +127,8 @@ export default function HeroSection() {
         {/* Album art */}
         <div className="hidden md:block flex-shrink-0 w-9 h-9 rounded-full overflow-hidden border border-white/20">
           <img
-            src="https://readdy.ai/api/search-image?query=album%20cover%20art%20gospel%20music%20his%20glory%20spiritual%20worship%20dark%20cinematic&width=36&height=36&seq=hero-album-art&orientation=squarish"
-            alt="His Glory"
+            src={albumArt}
+            alt="Milestone"
             className="w-full h-full object-cover"
           />
         </div>
@@ -134,10 +136,10 @@ export default function HeroSection() {
         {/* Track info */}
         <div className="hidden md:flex flex-shrink-0 flex-col" style={{ minWidth: "90px", maxWidth: "110px" }}>
           <span className="font-inter font-bold text-white truncate" style={{ fontSize: "11px" }}>
-            His Glory
+            Milestone
           </span>
           <span className="font-inter truncate" style={{ fontSize: "10px", color: "#077DA7" }}>
-            His Presence Album
+            Album Coming Soon
           </span>
         </div>
 
@@ -204,7 +206,13 @@ export default function HeroSection() {
           <a href="#" rel="nofollow" className="text-gray-400 hover:text-[#1DB954] transition-colors cursor-pointer">
             <i className="ri-spotify-fill" style={{ fontSize: "16px" }} />
           </a>
-          <a href="#" rel="nofollow" className="text-gray-400 hover:text-[#FF0000] transition-colors cursor-pointer">
+          <a
+            href={socialLinks.youtube}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="YouTube"
+            className="text-gray-400 hover:text-[#FF0000] transition-colors cursor-pointer"
+          >
             <i className="ri-youtube-fill" style={{ fontSize: "16px" }} />
           </a>
           <a href="#" rel="nofollow" className="text-gray-400 hover:text-[#FF5500] transition-colors cursor-pointer">

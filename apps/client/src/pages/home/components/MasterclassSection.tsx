@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
-import bassMasterclass1 from "../../../assets/home/bassmasterclass1.jpg";
-import bassMasterclass2 from "../../../assets/home/basemasterclass2.jpg";
+import bassMasterclass1 from "../../../assets/home/bassmasterclass1.jpeg";
+import bassMasterclass2 from "../../../assets/home/bassmasterclassdetail.jpg";
 
 const statsData = [
-  { value: "250K+", label: "Students Enrolled" },
-  { value: "35+", label: "Certified Instructors" },
-  { value: "97%", label: "Student Satisfaction Rate" },
-  { value: "800+", label: "Live Session Hosted" },
+  { value: "17+", label: "Years of Experience" },
+  { value: "4", label: "Genres Covered" },
+  { value: "3", label: "Continents Toured" },
+  { value: "50+", label: "International Artists" },
 ];
 
 const bullets = [
@@ -18,14 +18,14 @@ const bullets = [
 
 export default function MasterclassSection() {
   return (
-    <section className="flex flex-col md:flex-row" style={{ minHeight: "440px" }}>
-      {/* Left: Image */}
-      <div className="w-full md:w-1/2 overflow-hidden" style={{ minHeight: "300px" }}>
+    <section className="flex flex-col md:flex-row md:min-h-[440px]">
+      {/* Left: Image — aspect-ratio locks height on mobile; stretches to match content on desktop */}
+      <div className="relative w-full aspect-[4/3] md:aspect-auto md:w-1/2 overflow-hidden md:self-stretch">
         <img
           src={bassMasterclass1}
           alt="Bass Masterclass"
-          className="w-full h-full object-cover object-top"
-          style={{ minHeight: "300px" }}
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ objectPosition: "50% 15%" }}
         />
       </div>
 

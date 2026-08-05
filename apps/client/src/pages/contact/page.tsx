@@ -47,7 +47,7 @@ export default function ContactPage() {
           <div className="flex items-center gap-2 text-[12px] text-gray-300 font-inter">
             <Link to="/" className="hover:text-white transition-colors cursor-pointer">Home</Link>
             <span>/</span>
-            <span className="text-gray-300">Contact Us 02</span>
+            <span className="text-gray-300">Contact</span>
           </div>
         </div>
       </section>
@@ -113,12 +113,12 @@ export default function ContactPage() {
           {/* Right: Map */}
           <div className="w-full aspect-[4/3] lg:aspect-square bg-gray-100 relative">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.15830869428!2d-74.11976397304603!3d40.69766374874431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1680000000000!5m2!1sen!2s"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d158857.83989823643!2d-0.24168138430087775!3d51.52877184185745!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a00baf21de75%3A0x52963a5addd52a99!2sLondon%2C%20UK!5e0!3m2!1sen!2s!4v1680000000000!5m2!1sen!2s"
               className="absolute inset-0 w-full h-full border-0 filter grayscale opacity-70"
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Joseph Wilson Location"
+              title="Joe Wilson Location - London, UK"
             />
           </div>
 

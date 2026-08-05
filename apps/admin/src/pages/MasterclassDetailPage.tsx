@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { masterclasses, statusConfig, type Status, type Session, type Resource } from '@/data/masterclasses';
 import { INITIAL_MEDIA } from '@/data/media';
+import DateTimePicker from '@/components/ui/DateTimePicker';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -274,7 +275,7 @@ export default function MasterclassDetailPage() {
 
   const handleSaveSessionChanges = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!cohort || editingSessionId === null) return;
+    if (!cohort || editingSessionId === null || !editSessionDatetime) return;
 
     const { date, month, datetime } = parseDatetime(editSessionDatetime);
 
@@ -323,7 +324,7 @@ export default function MasterclassDetailPage() {
 
   const handleAddSession = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!cohort) return;
+    if (!cohort || !sessionDatetime) return;
 
     const { date, month, datetime } = parseDatetime(sessionDatetime);
 
@@ -717,17 +718,7 @@ export default function MasterclassDetailPage() {
                   <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
                     Date & time
                   </label>
-                  <div className="relative flex items-center">
-                    <Calendar size={13} className="absolute left-3.5 text-gray-400 pointer-events-none" />
-                    <input
-                      type="datetime-local"
-                      required
-                      value={sessionDatetime}
-                      onChange={e => setSessionDatetime(e.target.value)}
-                      className="w-full bg-white border border-gray-200 pl-9 pr-3.5 py-2 text-[13px] text-gray-700
-                        focus:outline-none focus:ring-1 focus:ring-brand focus:border-brand transition-all"
-                    />
-                  </div>
+                  <DateTimePicker value={sessionDatetime} onChange={setSessionDatetime} />
                 </div>
                 <div>
                   <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
@@ -846,17 +837,7 @@ export default function MasterclassDetailPage() {
                   <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
                     Date & time
                   </label>
-                  <div className="relative flex items-center">
-                    <Calendar size={13} className="absolute left-3.5 text-gray-400 pointer-events-none" />
-                    <input
-                      type="datetime-local"
-                      required
-                      value={editSessionDatetime}
-                      onChange={e => setEditSessionDatetime(e.target.value)}
-                      className="w-full bg-white border border-gray-200 pl-9 pr-3.5 py-2 text-[13px] text-gray-700
-                        focus:outline-none focus:ring-1 focus:ring-brand focus:border-brand transition-all"
-                    />
-                  </div>
+                  <DateTimePicker value={editSessionDatetime} onChange={setEditSessionDatetime} />
                 </div>
                 <div>
                   <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">

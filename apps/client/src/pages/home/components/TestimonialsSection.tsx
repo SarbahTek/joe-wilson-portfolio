@@ -2,7 +2,7 @@ import homeTestimonials from "../../../assets/home/hometestimonials.jpg";
 import { useTestimonialCards } from "@/hooks/content/useTestimonialCards";
 
 export default function TestimonialsSection() {
-  const { cards: testimonials, isLoading } = useTestimonialCards();
+  const { cards: testimonials } = useTestimonialCards();
 
   return (
     <section
@@ -12,12 +12,6 @@ export default function TestimonialsSection() {
       <h2 className="mb-8 mt-4 text-center font-inter text-[clamp(24px,3.5vw,48px)] font-bold uppercase leading-none tracking-tight text-white md:mb-10 md:mt-6">
         Testimonials
       </h2>
-
-      {isLoading && (
-        <div className="flex justify-center py-8">
-          <i className="ri-loader-4-line animate-spin text-3xl text-white" />
-        </div>
-      )}
 
       <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-4 md:gap-8 md:grid-cols-3">
         {testimonials.map((t, i) => (

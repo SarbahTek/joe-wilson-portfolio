@@ -10,18 +10,18 @@ export default function MomentsSection() {
         Moments
       </h2>
 
-      <div className="w-full flex flex-col md:grid md:grid-cols-3 md:h-[clamp(400px,45vw,600px)]">
+      <div className="w-full flex flex-col md:flex-row md:h-[clamp(400px,45vw,600px)] overflow-hidden">
         {/* Left Column */}
-        <div className="flex flex-col w-full h-auto md:h-full">
+        <div className="flex flex-col w-full md:w-1/3 md:h-full min-h-0 overflow-hidden">
           <img
             src={moments1}
             alt="Moments 1"
-            className="w-full h-auto md:h-1/2 object-cover md:object-cover object-center"
+            className="w-full aspect-[4/3] md:aspect-auto md:h-1/2 object-cover object-center"
           />
           <img
             src={moments2}
             alt="Moments 2"
-            className="w-full h-auto md:h-1/2 object-cover md:object-cover object-center"
+            className="w-full aspect-[4/3] md:aspect-auto md:h-1/2 object-cover object-center"
           />
         </div>
 
@@ -29,14 +29,14 @@ export default function MomentsSection() {
         <img
           src={moments3}
           alt="Moments 3"
-          className="w-full h-auto md:h-full object-cover md:object-cover object-center"
+          className="w-full md:w-1/3 aspect-[4/3] md:aspect-auto md:h-full object-cover object-center"
         />
 
         {/* Right Column */}
         <img
           src={moments4}
           alt="Moments 4"
-          className="w-full h-auto md:h-full object-cover md:object-cover object-center"
+          className="w-full md:w-1/3 aspect-[4/3] md:aspect-auto md:h-full object-cover object-center"
         />
       </div>
 

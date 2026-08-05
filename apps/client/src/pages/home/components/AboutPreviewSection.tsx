@@ -1,16 +1,16 @@
 import { Link } from "react-router-dom";
-import aboutImage from "../../../assets/home/homeaboutme.png";
+import aboutImage from "../../../assets/home/homeaboutme.jpeg";
 
 export default function AboutPreviewSection() {
   return (
-    <section className="flex flex-col md:flex-row" style={{ minHeight: "440px" }}>
-      {/* Left: Image */}
-      <div className="w-full md:w-1/2 overflow-hidden" style={{ minHeight: "300px" }}>
+    <section className="flex flex-col md:flex-row md:min-h-[440px]">
+      {/* Left: Image — aspect-ratio locks height on mobile; stretches to match content on desktop */}
+      <div className="relative w-full aspect-[4/3] md:aspect-auto md:w-1/2 overflow-hidden md:self-stretch">
         <img
           alt="About Joseph Wilson"
           src={aboutImage}
-          className="w-full h-full object-cover object-top"
-          style={{ minHeight: "300px" }}
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ objectPosition: "50% 18%" }}
         />
       </div>
 
@@ -35,18 +35,25 @@ export default function AboutPreviewSection() {
           className="font-inter leading-relaxed"
           style={{ fontSize: "clamp(13px, 1vw, 15px)", color: "#6B7280", marginBottom: "12px" }}
         >
-          Joseph Wilson is a world-class bassist, music director, and performer with over a decade of
-          experience commanding stages across the globe. His raw energy, technical mastery, and magnetic
-          stage presence have made him one of the most electrifying live performers in the industry.
+          Joe Wilson is a seasoned music professional whose career spans performance, production, and project leadership. Beginning as a bass player, Joe built a reputation for musical excellence, creativity, and reliability, which naturally led him into roles as a Music Director, Audio Engineer, Event and Project Manager, and Music Consultant.
+        </p>
+        <p
+          className="font-inter leading-relaxed"
+          style={{ fontSize: "clamp(13px, 1vw, 15px)", color: "#6B7280", marginBottom: "12px" }}
+        >
+          Throughout his career, Joe has worked with a diverse range of international artists across multiple genres, from Gospel and Contemporary Christian music to mainstream secular music and Afrobeats. His versatility, musical insight, and ability to adapt to different creative environments have made him a trusted collaborator on stages, recordings, tours, and live productions around the world.
+        </p>
+        <p
+          className="font-inter leading-relaxed"
+          style={{ fontSize: "clamp(13px, 1vw, 15px)", color: "#6B7280", marginBottom: "12px" }}
+        >
+          With extensive experience managing events, productions, and creative projects, Joe combines technical expertise with strong organizational and leadership skills to deliver exceptional results. His ability to bridge the gap between artistic vision and practical execution has earned him a reputation for excellence among artists, organizations, and production teams alike.
         </p>
         <p
           className="font-inter leading-relaxed"
           style={{ fontSize: "clamp(13px, 1vw, 15px)", color: "#6B7280", marginBottom: "32px" }}
         >
-          From intimate venues to sold-out arenas, Joseph brings an unmatched intensity to every
-          performance — blending funk, soul, and contemporary bass into a sound that is entirely his own.
-          Beyond the stage, he is a dedicated educator and music director, shaping the next generation of
-          musicians.
+          Beyond his professional achievements, Joe is a devoted family man who values integrity, teamwork, and meaningful relationships. Whether directing a performance, engineering sound, managing an event, or consulting on a project, Joe brings passion, professionalism, and a people-first approach to everything he does.
         </p>
         <Link
           to="/about"

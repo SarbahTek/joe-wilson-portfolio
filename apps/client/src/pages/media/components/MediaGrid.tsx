@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { mediaItems, type MediaItem } from "@/mocks/media";
+import { socialLinks } from "@/config/social";
 
 import photo1 from "@/assets/media/photos1.jpg";
 import photo2 from "@/assets/media/photos2.jpg";
@@ -144,7 +145,12 @@ function VideoCard({ item }: { item: MediaItem }) {
 const streamingPlatforms = [
   { name: "Spotify", icon: "ri-spotify-fill", color: "#1DB954", url: "#" },
   { name: "Apple Music", icon: "ri-apple-fill", color: "#fc3c44", url: "#" },
-  { name: "YouTube Music", icon: "ri-youtube-fill", color: "#FF0000", url: "#" },
+  {
+    name: "YouTube Music",
+    icon: "ri-youtube-fill",
+    color: "#FF0000",
+    url: socialLinks.youtube,
+  },
 ];
 
 const studioSamples = [
@@ -180,6 +186,8 @@ function AudioTab() {
             <a
               key={i}
               href={p.url}
+              target={p.url !== "#" ? "_blank" : undefined}
+              rel={p.url !== "#" ? "noopener noreferrer" : undefined}
               className="flex items-center gap-5 bg-[#F5F6FA] px-8 py-7 hover:bg-[#e5e7eb] transition-colors"
             >
               <i className={`${p.icon} text-[32px]`} style={{ color: p.color }} />
