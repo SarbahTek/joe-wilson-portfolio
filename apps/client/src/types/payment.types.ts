@@ -4,7 +4,7 @@ export interface Payment {
   id: string;
   userId: string;
   masterclassId: string;
-  amount: number;
+  amountCents: number;
   currency: string;
   status: PaymentStatus;
   stripePaymentIntentId?: string;

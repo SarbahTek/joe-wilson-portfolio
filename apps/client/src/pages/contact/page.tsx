@@ -7,7 +7,7 @@ import { useSubmitInquiry } from "@/hooks/content/useInquiries";
 import { getErrorMessage } from "@/lib/errors";
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState({ email: "", phone: "", message: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
   const submitInquiry = useSubmitInquiry();
@@ -17,6 +17,7 @@ export default function ContactPage() {
     setError("");
     try {
       await submitInquiry.mutateAsync({
+        name: formData.name.trim(),
         email: formData.email.trim(),
         phone: formData.phone.trim() || undefined,
         message: formData.message.trim(),
@@ -34,12 +35,7 @@ export default function ContactPage() {
 
       {/* Hero Banner */}
       <section className="relative h-[250px] md:h-[350px] overflow-hidden">
-        <img
-          src="https://static.readdy.ai/image/bd3e65a9c2956e637f2d341da068edd0/aa9dbbf5d3afc2cc83b427d7cebac1db.jpeg"
-          alt="Contact Hero"
-          className="absolute inset-0 w-full h-full object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-[#1a1a1a]" />
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
           <h1 className="text-3xl md:text-5xl font-bold text-white uppercase tracking-widest mb-3 font-inter">
             GET IN TOUCH
@@ -67,6 +63,9 @@ export default function ContactPage() {
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col gap-10 w-full">
                 {error && <p className="text-sm text-red-600">{error}</p>}
+                <label className="block text-sm">Full name
+                  <input required maxLength={255} autoComplete="name" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="block w-full border-b border-gray-300 py-3 focus:outline-none focus:border-[#077DA7]" />
+                </label>
                 {/* Email Field */}
                 <input
                   type="email"

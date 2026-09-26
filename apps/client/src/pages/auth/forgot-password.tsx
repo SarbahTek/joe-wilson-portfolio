@@ -54,7 +54,7 @@ export default function ForgotPassword() {
               </div>
               <h1 className="text-3xl font-bold text-gray-900 mb-3">Check Your Inbox</h1>
               <p className="text-gray-500 text-sm mb-8 leading-relaxed">
-                We&apos;ve sent a password reset link to<br />
+                If an account exists for this address, you&apos;ll receive a password reset link at<br />
                 <span className="font-semibold text-gray-700">{email}</span>.<br />
                 Check your inbox and follow the instructions.
               </p>

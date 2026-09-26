@@ -6,6 +6,7 @@ import { useMasterclass } from "@/hooks/masterclasses/useMasterclasses";
 import { useSessionUi, useUpdateSessionProgress } from "@/hooks/sessions/useSession";
 import { getErrorMessage } from "@/lib/errors";
 import heroImg from "@/assets/home/basemasterclass2.jpg";
+import LessonPlayer from "@/components/feature/LessonPlayer";
 
 export default function VideoLessonPage() {
   const { cohortId, sessionId } = useParams();
@@ -36,7 +37,6 @@ export default function VideoLessonPage() {
     if (sessionId && sessionDetail) {
       updateProgress.mutate({
         watchedSeconds: progress?.watchedSeconds ?? 0,
-        completed: false,
       });
     }
   };
@@ -60,10 +60,10 @@ export default function VideoLessonPage() {
 
   if (!cohort || !session) return <Navigate to={`/members/${cohortId}`} replace />;
 
-  const videoSrc = playbackUrl ?? "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1";
+  const videoSrc = playbackUrl;
   const progressPercent = progress?.watchedSeconds && sessionDetail?.durationSeconds
     ? Math.min(100, (progress.watchedSeconds / sessionDetail.durationSeconds) * 100)
-    : 35;
+    : 0;
 
   const prevSession = currentIdx > 0 ? sessions[currentIdx - 1] : null;
   const nextSession = currentIdx < sessions.length - 1 ? sessions[currentIdx + 1] : null;
@@ -132,10 +132,12 @@ export default function VideoLessonPage() {
                 </div>
               )}
 
-              {playing ? (
+              {sessionDetail?.muxPlaybackId ? (
+                <LessonPlayer key={sessionId} playbackId={sessionDetail.muxPlaybackId} token={sessionDetail.muxSignedToken} title={session.title} startTime={progress?.watchedSeconds ?? 0} completed={progress?.completed} onProgress={(watchedSeconds, completed) => updateProgress.mutate({ watchedSeconds, completed })} />
+              ) : !videoSrc ? <p role="status" className="absolute inset-0 flex items-center justify-center text-white p-6 text-center">This lesson video is not available yet.</p> : playing ? (
                 <iframe
                   className="w-full h-full"
-                  src={videoSrc.includes("youtube") || videoSrc.includes("vimeo") ? videoSrc : videoSrc}
+                  src={videoSrc}
                   title={session.title}
                   allow="autoplay; encrypted-media"
                   allowFullScreen
@@ -164,13 +166,14 @@ export default function VideoLessonPage() {
                     </div>
                     <div className="flex items-center justify-between text-white/70 text-[10px]">
                       <span>0:00</span>
-                      <span>35:22</span>
+                      <span>{sessionDetail?.durationSeconds ? `${Math.floor(sessionDetail.durationSeconds / 60)}:${String(sessionDetail.durationSeconds % 60).padStart(2, "0")}` : ""}</span>
                     </div>
                   </div>
                 </>
               )}
             </div>
 
+            {updateProgress.error && <p role="alert" className="text-sm text-red-600 mb-4">Your progress could not be saved. {getErrorMessage(updateProgress.error)}</p>}
             {/* ── Session Info ── */}
             <h2 className="text-[18px] font-bold text-[#1a1a1a] mb-2">
               Session {session.sessionNumber}: {session.title}

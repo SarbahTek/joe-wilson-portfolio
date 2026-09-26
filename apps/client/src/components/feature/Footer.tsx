@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 import socialMediaFooterBg from "../../assets/socialmediafooter.jpg";
 import logo1 from "../../assets/Logo1.svg";
 import albumArt from "../../assets/music/milestonecover.jpg";
-import { footerSocialBar, footerSocialIcons } from "@/config/social";
+import { useEvents } from "@/hooks/content/useEvents";
+import { usePublicSettings } from "@/hooks/content/usePublicSettings";
 
 const upcomingEvents = [
   { date: "Apr 18", event: "London Proms Apollo" },
@@ -15,6 +16,17 @@ const quickMenuLeft = ["Home", "Events", "Gallery", "Videos"];
 const quickMenuRight = ["Discography", "News", "Shop", "Contact"];
 
 export default function Footer() {
+  const { data: events = [] } = useEvents();
+  const { data: settings = {} } = usePublicSettings();
+  const socialLinks = [
+    { label: "INSTAGRAM", icon: "ri-instagram-fill", href: String(settings.social_instagram ?? "") },
+    { label: "FACEBOOK", icon: "ri-facebook-fill", href: String(settings.social_facebook ?? "") },
+    { label: "YOUTUBE", icon: "ri-youtube-fill", href: String(settings.social_youtube ?? "") },
+  ].filter((item) => item.href);
+  const upcomingEvents = events
+    .filter((event) => new Date(event.eventDate).getTime() >= Date.now())
+    .sort((a, b) => new Date(a.eventDate).getTime() - new Date(b.eventDate).getTime())
+    .slice(0, 4);
   return (
     <footer className="bg-[#1A1A18]">
       {/* Social Bar */}
@@ -23,7 +35,7 @@ export default function Footer() {
         style={{ backgroundImage: `url(${socialMediaFooterBg})` }}
       >
         <div className="mx-auto grid max-w-[1400px] grid-cols-2 md:grid-cols-4">
-          {footerSocialBar.map((s, i) => (
+          {socialLinks.map((s) => (
             <a
               key={s.label}
               href={s.href}
@@ -55,7 +67,7 @@ export default function Footer() {
             />
           </Link>
           <div className="flex gap-4 mt-4 justify-center sm:justify-start">
-            {footerSocialIcons.map((s) => (
+            {socialLinks.map((s) => (
               <a
                 key={s.label}
                 href={s.href}
@@ -76,12 +88,12 @@ export default function Footer() {
             <a href="#events">Upcoming Events</a>
           </h4>
           <ul className="space-y-3.5">
-            {upcomingEvents.map((ev, i) => (
-              <li key={i} className="flex flex-col gap-1 text-[13px] text-gray-300 sm:flex-row sm:gap-3">
-                <span className="whitespace-nowrap font-semibold text-white">{ev.date}</span>
-                <span className="text-gray-400">{ev.event}</span>
+            {upcomingEvents.length ? upcomingEvents.map((ev) => (
+              <li key={ev.id} className="flex flex-col gap-1 text-[13px] text-gray-300 sm:flex-row sm:gap-3">
+                <span className="whitespace-nowrap font-semibold text-white">{new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric" }).format(new Date(ev.eventDate))}</span>
+                <span className="text-gray-400">{ev.title}{ev.location ? `, ${ev.location}` : ""}</span>
               </li>
-            ))}
+            )) : <li className="text-[13px] text-gray-400">New dates will be announced soon.</li>}
           </ul>
         </div>
 

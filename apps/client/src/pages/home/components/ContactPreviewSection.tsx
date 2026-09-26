@@ -2,12 +2,14 @@ import { useState } from "react";
 import homeDropMeALine from "../../../assets/home/homedropmealine.jpg";
 import { useSubmitInquiry } from "@/hooks/content/useInquiries";
 import { getErrorMessage } from "@/lib/errors";
+import { usePublicSettings } from "@/hooks/content/usePublicSettings";
 
 export default function ContactPreviewSection() {
-  const [formData, setFormData] = useState({ email: "", phone: "", message: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
   const submitInquiry = useSubmitInquiry();
+  const { data: settings = {} } = usePublicSettings();
 
   const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value.length <= 500) {
@@ -21,6 +23,7 @@ export default function ContactPreviewSection() {
     setError("");
     try {
       await submitInquiry.mutateAsync({
+        name: formData.name.trim(),
         email: formData.email.trim(),
         phone: formData.phone.trim() || undefined,
         message: formData.message.trim(),
@@ -49,16 +52,16 @@ export default function ContactPreviewSection() {
           <div className="flex flex-col gap-[clamp(24px,3vw,40px)]">
             {[
               {
-                address: "United Kingdom",
-                email: "booking@joewilsonbass.com",
-                phone: "Available internationally",
+                address: String(settings.contact_location || ""),
+                email: String(settings.booking_email || ""),
+                phone: String(settings.contact_phone_1 || ""),
               },
               {
-                address: "Africa · America · Worldwide",
-                email: "info@joewilsonbass.com",
-                phone: "Regular tours across Ghana, Nigeria, USA",
+                address: "",
+                email: String(settings.contact_email || ""),
+                phone: "",
               },
-            ].map(({ address, email, phone }, i) => (
+            ].filter(item => item.address || item.email || item.phone).map(({ address, email, phone }, i) => (
               <div key={i} className="flex gap-4 items-start">
                 <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full border border-[#dedede] bg-[#f7f7f7]">
                   <i className="ri-map-pin-fill text-[18px] text-[#C9A227]" />
@@ -91,6 +94,7 @@ export default function ContactPreviewSection() {
           ) : (
             <form id="home-contact-form" onSubmit={handleSubmit} className="flex flex-1 flex-col gap-5">
               {error && <p className="text-sm text-red-600">{error}</p>}
+              <input required maxLength={255} autoComplete="name" aria-label="Full name" placeholder="FULL NAME" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full border-b border-[#bebebe] bg-transparent py-3 font-inter text-[15px] text-gray-700 focus:border-[#077DA7] focus:outline-none" />
               <input
                 type="email"
                 name="email"

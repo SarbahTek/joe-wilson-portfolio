@@ -11,9 +11,12 @@ import {
   PanelLeft,
   User,
   FileText,
+  BriefcaseBusiness,
+  CalendarDays,
 } from 'lucide-react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import logo from '@/assets/Logo1.svg';
+import { tokenStorage } from '@joe-wilson/shared/lib/token-storage';
 
 interface NavItem {
   label: string;
@@ -24,6 +27,8 @@ interface NavItem {
 const navItems: NavItem[] = [
   { label: 'Dashboard', icon: LayoutDashboard, path: '/admin/dashboard' },
   { label: 'Masterclasses', icon: BookOpen, path: '/admin/masterclasses' },
+  { label: 'Services', icon: BriefcaseBusiness, path: '/admin/services' },
+  { label: 'Events', icon: CalendarDays, path: '/admin/events' },
   { label: 'Users', icon: Users, path: '/admin/users' },
   { label: 'Inquiries', icon: MessageSquare, path: '/admin/inquiries' },
   { label: 'Quote Requests', icon: FileText, path: '/admin/quote-requests' },
@@ -173,7 +178,7 @@ export default function Sidebar({
         {/* ── Logout ───────────────────────────────────────────────────── */}
         <div className="flex-shrink-0 p-3">
           <button
-            onClick={() => navigate('/')}
+            onClick={() => { tokenStorage.clear(); navigate('/login', { replace: true }); }}
             className={[
               'w-full flex items-center gap-4 px-5 py-[14px]',
               'bg-white/[0.08] hover:bg-white/[0.12]',

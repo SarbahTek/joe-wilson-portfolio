@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo1 from "@/assets/Logo1.svg";
+import { useAuthStore } from "@/stores/auth.store";
 
 const navLinks = [
   { label: "Home", path: "/" },
@@ -21,6 +22,8 @@ export default function Navbar({ light = false }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const profilePath = isAuthenticated ? "/members/account" : "/login";
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -66,7 +69,7 @@ export default function Navbar({ light = false }: NavbarProps) {
 
         {/* Right Actions */}
         <div className="hidden md:flex items-center gap-3">
-          <Link to="/login" className="w-8 h-8 flex items-center justify-center cursor-pointer">
+          <Link to={profilePath} aria-label={isAuthenticated ? "My account" : "Sign in"} className="w-8 h-8 flex items-center justify-center cursor-pointer">
             <i className={`ri-user-line text-xl ${light ? "text-gray-900" : "text-white"}`} />
           </Link>
           <Link
@@ -90,7 +93,7 @@ export default function Navbar({ light = false }: NavbarProps) {
       {mobileOpen && (
         <div className="fixed inset-0 z-[100] bg-[#1E1E1E] flex flex-col px-6 py-6 h-screen overflow-y-auto">
           <div className="flex items-center justify-between mb-12">
-            <Link to="/login" className="w-[50px] h-[50px] rounded-full border-[3px] border-white flex items-center justify-center cursor-pointer overflow-hidden bg-white/10">
+            <Link to={profilePath} aria-label={isAuthenticated ? "My account" : "Sign in"} className="w-[50px] h-[50px] rounded-full border-[3px] border-white flex items-center justify-center cursor-pointer overflow-hidden bg-white/10">
               <i className="ri-user-fill text-white text-[32px] mt-2" />
             </Link>
             <button

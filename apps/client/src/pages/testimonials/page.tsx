@@ -7,7 +7,7 @@ import livePerformanceImg from "@/assets/home/servicesliveperformance.jpg";
 import { useTestimonialCards } from "@/hooks/content/useTestimonialCards";
 
 export default function TestimonialsPage() {
-  const { cards: testimonials } = useTestimonialCards();
+  const { cards: testimonials, isPending, error } = useTestimonialCards();
 
   return (
     <div className="min-h-screen bg-white">
@@ -60,6 +60,9 @@ export default function TestimonialsPage() {
         style={{ backgroundImage: `url(${homeTestimonials})` }}
       >
         <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {isPending && <p className="text-white/70 text-center md:col-span-2 lg:col-span-3">Loading testimonials…</p>}
+          {error && <p className="text-red-300 text-center md:col-span-2 lg:col-span-3">Testimonials are temporarily unavailable.</p>}
+          {!isPending && !error && testimonials.length === 0 && <p className="text-white/70 text-center md:col-span-2 lg:col-span-3">No testimonials have been published yet.</p>}
           {testimonials.map((t, i) => (
             <div key={i} className="flex flex-col border border-white/20 bg-transparent p-6 md:min-h-[280px]">
               {/* Stars */}
@@ -77,13 +80,13 @@ export default function TestimonialsPage() {
 
               {/* Author */}
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded-full">
+                {t.avatar && <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded-full">
                   <img
                     src={t.avatar}
                     alt={t.name}
                     className="h-full w-full object-cover object-top"
                   />
-                </div>
+                </div>}
                 <div className="flex items-center gap-1.5 font-inter text-[14px] text-white">
                   <p className="font-bold">{t.name}</p>
                   <span className="text-white/50">/</span>

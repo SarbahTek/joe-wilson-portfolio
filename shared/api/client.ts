@@ -15,32 +15,25 @@ export interface ApiClientOptions {
   loginPath?: string;
 }
 
-let isRefreshing = false;
-let refreshQueue: Array<{
-  resolve: (token: string) => void;
-  reject: (error: unknown) => void;
-}> = [];
-
-function processQueue(error: unknown, token: string | null) {
-  refreshQueue.forEach(({ resolve, reject }) => {
-    if (error) {
-      reject(error);
-    } else if (token) {
-      resolve(token);
-    }
-  });
-  refreshQueue = [];
-}
-
-/**
- * Creates a configured axios instance with JWT auth, token refresh,
- * and redirect-to-login on 401.
- *
- * Usage:
- *   import { createApiClient } from "@shared/api/client";
- *   export const apiClient = createApiClient({ baseURL: import.meta.env.DEV ? "/v1" : `${VITE_API_BASE_URL}/v1` });
- */
+/* Refresh state belongs to each client, so separate API hosts cannot share tokens. */
 export function createApiClient({ baseURL, loginPath = "/login" }: ApiClientOptions) {
+  let isRefreshing = false;
+  let refreshQueue: Array<{
+    resolve: (token: string) => void;
+    reject: (error: unknown) => void;
+  }> = [];
+
+  function processQueue(error: unknown, token: string | null) {
+    refreshQueue.forEach(({ resolve, reject }) => {
+      if (error) {
+        reject(error);
+      } else if (token) {
+        resolve(token);
+      }
+    });
+    refreshQueue = [];
+  }
+
   const client = axios.create({
     baseURL,
     headers: {
@@ -72,8 +65,13 @@ export function createApiClient({ baseURL, loginPath = "/login" }: ApiClientOpti
     async (error: AxiosError) => {
       const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
       const status = error.response?.status;
+      const isPublicAuthRequest = /^\/auth\/(login|register|refresh|forgot-password|reset-password)\/?$/.test(originalRequest?.url ?? "");
 
-      if (status !== 401 || !originalRequest || originalRequest._retry) {
+      if (status !== 401 || !originalRequest || isPublicAuthRequest || !originalRequest.headers.Authorization) {
+        return Promise.reject(parseApiError(error));
+      }
+      if (originalRequest._retry) {
+        redirectToLogin();
         return Promise.reject(parseApiError(error));
       }
 
@@ -83,6 +81,7 @@ export function createApiClient({ baseURL, loginPath = "/login" }: ApiClientOpti
         return Promise.reject(parseApiError(error));
       }
 
+      originalRequest._retry = true;
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           refreshQueue.push({
@@ -95,25 +94,28 @@ export function createApiClient({ baseURL, loginPath = "/login" }: ApiClientOpti
         });
       }
 
-      originalRequest._retry = true;
       isRefreshing = true;
 
       try {
         const response = await axios.post<SuccessResponse<LoginResponse> | LoginResponse>(
           `${baseURL}/auth/refresh`,
           { refreshToken },
-          { headers: { "Content-Type": "application/json" } },
+          { headers: { "Content-Type": "application/json" }, timeout: 30_000 },
         );
         const data = unwrapData(response);
         const accessToken = data.accessToken;
-        const newRefreshToken = data.refreshToken;
+        const newRefreshToken = data.refreshToken ?? refreshToken;
+        if (!accessToken || typeof accessToken !== "string") {
+          throw new Error("The server returned an invalid session. Please try again.");
+        }
         tokenStorage.setTokens(accessToken, newRefreshToken);
         processQueue(null, accessToken);
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         return client(originalRequest);
       } catch (refreshError) {
-        processQueue(refreshError, null);
-        redirectToLogin();
+        processQueue(parseApiError(refreshError), null);
+        const refreshStatus = (refreshError as AxiosError).response?.status;
+        if (refreshStatus === 401 || refreshStatus === 403) redirectToLogin();
         return Promise.reject(parseApiError(refreshError));
       } finally {
         isRefreshing = false;

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import loginBg from "@/assets/auth/LoginArt.jpg";
 import logoImg from "@/assets/Logo1.svg";
 import { useRegister } from "@/hooks/auth/useRegister";
@@ -7,6 +7,7 @@ import { getErrorMessage } from "@/lib/errors";
 
 export default function Signup() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const registerMutation = useRegister();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -65,7 +66,8 @@ export default function Signup() {
         email: email.trim(),
         password,
       });
-      navigate("/members");
+      const returnUrl = searchParams.get("returnUrl");
+      navigate(returnUrl?.startsWith("/") && !returnUrl.startsWith("//") && !returnUrl.includes("\\") ? returnUrl : "/members");
     } catch (error) {
       setErrors({ general: getErrorMessage(error, "Registration failed. Please try again.") });
     }
@@ -221,7 +223,7 @@ export default function Signup() {
 
           <p className="text-center text-sm text-gray-500 mt-6">
             Already have an account?{" "}
-            <Link to="/login" className="text-[#1a7fa8] hover:underline cursor-pointer">
+            <Link to={`/login${searchParams.toString() ? `?${searchParams}` : ""}`} className="text-[#1a7fa8] hover:underline cursor-pointer">
               Sign in
             </Link>
           </p>

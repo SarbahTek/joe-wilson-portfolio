@@ -6,17 +6,13 @@ import Home from "../pages/home/page";
 import Login from "../pages/auth/login";
 import Signup from "../pages/auth/signup";
 import ForgotPassword from "../pages/auth/forgot-password";
+import ResetPassword from "../pages/auth/reset-password";
 import MusicPage from "../pages/music/page";
-import AlbumDetailPage from "../pages/music/AlbumDetailPage";
 import AboutPage from "../pages/about/page";
 import MasterclassPage from "../pages/masterclass/page";
 import MediaPage from "../pages/media/page";
-import MediaDetailPage from "../pages/media/MediaDetailPage";
 import ServicesPage from "../pages/services/page";
-import LivePerformancePage from "../pages/services/LivePerformancePage";
-import StudioSessionBassPage from "../pages/services/StudioSessionBassPage";
-import MusicProductionPage from "../pages/services/MusicProductionPage";
-import MusicDirectionPage from "../pages/services/MusicDirectionPage";
+import ServiceDetailPage from "../pages/services/ServiceDetailPage";
 import ContactPage from "../pages/contact/page";
 import MembersPage from "../pages/members/page";
 import MasterclassDetailPage from "../pages/members/MasterclassDetailPage";
@@ -27,6 +23,7 @@ import TestimonialsPage from "../pages/testimonials/page";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 
 const routes: RouteObject[] = [
+  { path: "/reset-password", element: <ResetPassword /> },
   {
     path: "/",
     element: <Home />,
@@ -51,10 +48,7 @@ const routes: RouteObject[] = [
     path: "/music",
     element: <MusicPage />,
   },
-  {
-    path: "/music/:albumId",
-    element: <AlbumDetailPage />,
-  },
+  { path: "/music/:albumId", element: <MusicPage /> },
   {
     path: "/about",
     element: <AboutPage />,
@@ -105,30 +99,12 @@ const routes: RouteObject[] = [
     path: "/media",
     element: <MediaPage />,
   },
-  {
-    path: "/media/:mediaId",
-    element: <MediaDetailPage />,
-  },
+  { path: "/media/:mediaId", element: <MediaPage /> },
   {
     path: "/services",
     element: <ServicesPage />,
   },
-  {
-    path: "/services/live-performance",
-    element: <LivePerformancePage />,
-  },
-  {
-    path: "/services/studio-session-bass",
-    element: <StudioSessionBassPage />,
-  },
-  {
-    path: "/services/music-production",
-    element: <MusicProductionPage />,
-  },
-  {
-    path: "/services/music-direction",
-    element: <MusicDirectionPage />,
-  },
+  { path: "/services/:slug", element: <ServiceDetailPage /> },
   {
     path: "/contact",
     element: <ContactPage />,

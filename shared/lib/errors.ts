@@ -62,8 +62,8 @@ export function parseApiError(error: unknown): ApiError {
                 ? "Please check your input and try again."
                 : status === 429
                   ? "Too many attempts. Please wait a few minutes and try again."
-                  : status === 500
-                    ? "Something went wrong. This email may already be registered — try signing in instead."
+                  : status >= 500
+                    ? "The server is temporarily unavailable. Please try again shortly."
                     : "Something went wrong. Please try again.");
 
     return new ApiError(message, status, normalizeFieldErrors(data));
@@ -86,6 +86,7 @@ function formatErrorField(error: ApiErrorBody["error"]): string | undefined {
 }
 
 function normalizeFieldErrors(data: ApiErrorBody): Record<string, string[]> {
+  if (!data || typeof data !== "object") return {};
   if (data.errors) return data.errors;
   if (Array.isArray(data.error)) {
     return data.error.reduce<Record<string, string[]>>((acc, item) => {

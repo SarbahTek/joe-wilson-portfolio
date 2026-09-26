@@ -11,9 +11,9 @@ import heroFallback from "@/assets/home/basemasterclass2.jpg";
 
 function mapSessionStatus(status: SessionStatus): UiSession["status"] {
   switch (status) {
-    case "LIVE":
+    case "live":
       return "live";
-    case "COMPLETED":
+    case "completed":
       return "completed";
     default:
       return "upcoming";
@@ -23,7 +23,7 @@ function mapSessionStatus(status: SessionStatus): UiSession["status"] {
 export function mapSessionToUi(session: Session | SessionDetail, index: number): UiSession {
   return {
     id: session.id,
-    sessionNumber: session.order ?? index + 1,
+    sessionNumber: session.orderIndex != null ? session.orderIndex + 1 : index + 1,
     title: session.title,
     description: session.description ?? "",
     status: mapSessionStatus(session.status),
@@ -44,18 +44,18 @@ export function mapMasterclassToCohort(
   sessions: Session[] = [],
   enrollment?: Enrollment | null,
 ): Cohort {
-  const progressPercent = enrollment?.progressPercent ?? 0;
+  const progressPercent = enrollment?.progressPct ?? enrollment?.progressPercent ?? 0;
   const isActive =
-    masterclass.status === "PUBLISHED" && progressPercent < 100;
+    masterclass.status !== "completed" && progressPercent < 100;
 
   return {
     id: masterclass.id,
     title: masterclass.title,
     description: masterclass.description,
-    image: masterclass.imageUrl || heroFallback,
-    bannerImage: masterclass.bannerUrl || masterclass.imageUrl || heroFallback,
+    image: masterclass.coverImageUrl || masterclass.imageUrl || heroFallback,
+    bannerImage: masterclass.bannerUrl || masterclass.coverImageUrl || masterclass.imageUrl || heroFallback,
     status: isActive ? "ACTIVE" : "COMPLETED",
-    sessions: masterclass.sessionCount ?? sessions.length,
+    sessions: masterclass.sessionsCount ?? masterclass.sessionCount ?? sessions.length,
     endDate: formatEndDate(masterclass.endsAt),
     sessionList: sessions.map(mapSessionToUi),
     resourceList: [],

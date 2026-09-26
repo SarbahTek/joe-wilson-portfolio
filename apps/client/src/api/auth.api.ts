@@ -15,17 +15,13 @@ import type {
 
 export const authApi = {
   register(input: RegisterInput) {
-    return apiClient.post<RegisterResponse | void>("/auth/register", input).then(unwrapData);
+    return apiClient.post<RegisterResponse>("/auth/register", input).then(unwrapData);
   },
 
-  /** Register with full profile, then auto-login */
+  /** Registration already returns the user and session tokens. */
   async registerWithProfile(input: RegisterWithProfileInput): Promise<LoginResponse> {
     const { email, password, firstName, lastName } = input;
-    await apiClient.post("/auth/register", { email, password, firstName, lastName });
-    const auth = await apiClient
-      .post<LoginResponse>("/auth/login", { email, password })
-      .then(unwrapData);
-    return auth;
+    return authApi.register({ email, password, firstName, lastName });
   },
 
   login(input: LoginInput) {

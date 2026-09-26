@@ -1,5 +1,7 @@
-/** POST /auth/register — OpenAPI only accepts email + password */
+/** POST /auth/register requires the user's name and credentials. */
 export interface RegisterInput {
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
 }
@@ -33,7 +35,7 @@ export interface UpdateMeInput {
   avatarUrl?: string;
 }
 
-export type UserRole = "USER" | "ADMIN";
+export type UserRole = "member" | "admin";
 
 export interface User {
   id: string;

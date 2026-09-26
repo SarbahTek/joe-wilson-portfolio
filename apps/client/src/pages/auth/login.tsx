@@ -42,7 +42,7 @@ export default function Login() {
     try {
       await loginMutation.mutateAsync({ email: email.trim(), password });
       const returnUrl = searchParams.get("returnUrl");
-      navigate(returnUrl ? decodeURIComponent(returnUrl) : "/members");
+      navigate(returnUrl?.startsWith("/") && !returnUrl.startsWith("//") && !returnUrl.includes("\\") ? returnUrl : "/members");
     } catch (error) {
       setErrors({ general: getErrorMessage(error, "Sign in failed. Please check your credentials.") });
     }
@@ -141,7 +141,7 @@ export default function Login() {
 
           <p className="text-center text-sm text-gray-500 mt-6">
             Don&apos;t you have an account?{" "}
-            <Link to="/signup" className="text-[#1a7fa8] hover:underline cursor-pointer">
+            <Link to={`/signup${searchParams.toString() ? `?${searchParams}` : ""}`} className="text-[#1a7fa8] hover:underline cursor-pointer">
               Sign up
             </Link>
           </p>

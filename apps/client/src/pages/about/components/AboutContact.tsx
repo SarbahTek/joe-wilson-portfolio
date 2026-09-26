@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSubmitInquiry } from "@/hooks/content/useInquiries";
 import { getErrorMessage } from "@/lib/errors";
+import { usePublicSettings } from "@/hooks/content/usePublicSettings";
 
 export default function AboutContact() {
   const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
@@ -8,6 +9,7 @@ export default function AboutContact() {
   const [charCount, setCharCount] = useState(0);
   const [error, setError] = useState("");
   const submitInquiry = useSubmitInquiry();
+  const { data: settings = {} } = usePublicSettings();
 
   const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value.length <= 500) {
@@ -51,17 +53,8 @@ export default function AboutContact() {
                 <i className="ri-map-pin-fill text-[#1ab8e8] text-base" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-gray-900">United Kingdom</p>
-                <p className="text-xs text-gray-500">Based in the UK — available internationally</p>
-              </div>
-            </div>
-            <div className="flex gap-3">
-              <div className="w-5 h-5 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <i className="ri-map-pin-fill text-[#1ab8e8] text-base" />
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-gray-900">Africa &amp; America</p>
-                <p className="text-xs text-gray-500">Regular touring across Ghana, Nigeria, USA &amp; beyond</p>
+                <p className="text-sm font-semibold text-gray-900">{String(settings.contact_location || "Location not published")}</p>
+                {settings.contact_phone_1 && <p className="text-xs text-gray-500">{String(settings.contact_phone_1)}</p>}
               </div>
             </div>
             <div className="flex gap-3">
@@ -69,7 +62,7 @@ export default function AboutContact() {
                 <i className="ri-mail-fill text-[#1ab8e8] text-base" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-gray-900">booking@joewilsonbass.com</p>
+                <p className="text-sm font-semibold text-gray-900">{String(settings.booking_email || settings.contact_email || "Email not published")}</p>
                 <p className="text-xs text-gray-500">For bookings and inquiries</p>
               </div>
             </div>

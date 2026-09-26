@@ -13,7 +13,13 @@ export function useMyPayments() {
 
 export function useCreateCheckout() {
   return useMutation({
-    mutationFn: (input: CreateCheckoutInput) => paymentsApi.createCheckout(input),
+    mutationFn: async (input: CreateCheckoutInput) => {
+      const data = await paymentsApi.createCheckout(input);
+      if (!data.checkoutUrl || !data.checkoutUrl.startsWith("https://")) {
+        throw new Error("Checkout is unavailable. Please try again later.");
+      }
+      return data;
+    },
     onSuccess: (data) => {
       if (data.checkoutUrl) {
         window.location.href = data.checkoutUrl;
@@ -23,7 +29,7 @@ export function useCreateCheckout() {
 }
 
 export function formatPaymentForDisplay(payment: {
-  amount: number;
+  amountCents: number;
   currency: string;
   createdAt: string;
   masterclass?: { title: string };
@@ -35,6 +41,6 @@ export function formatPaymentForDisplay(payment: {
       day: "numeric",
       year: "numeric",
     }),
-    amount: formatPaymentAmount(payment.amount, payment.currency),
+    amount: formatPaymentAmount(payment.amountCents, payment.currency),
   };
 }

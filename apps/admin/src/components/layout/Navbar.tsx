@@ -1,6 +1,8 @@
 import React from 'react';
 import { Bell, Menu, Search } from 'lucide-react';
 import avatar from '@/assets/avatar.png';
+import { useQuery } from '@tanstack/react-query';
+import { adminApi } from '@/api/admin.api';
 
 interface NavbarProps {
   onMobileMenuToggle: () => void;
@@ -8,6 +10,7 @@ interface NavbarProps {
 }
 
 export default function Navbar({ onMobileMenuToggle, isMobileSidebarOpen }: NavbarProps) {
+  const { data: user } = useQuery({ queryKey: ['admin', 'me'], queryFn: adminApi.me });
   return (
     <header
       style={{ backgroundColor: '#1A1919' }}
@@ -57,14 +60,14 @@ export default function Navbar({ onMobileMenuToggle, isMobileSidebarOpen }: Navb
         <div className="flex items-center gap-2.5">
           {/* Name + role — desktop only */}
           <div className="text-right hidden lg:block">
-            <p className="text-[13px] font-semibold text-white leading-tight">Joseph Wilson</p>
-            <p className="text-[11px] text-white/40 leading-tight">Owner</p>
+            <p className="text-[13px] font-semibold text-white leading-tight">{user ? `${user.firstName} ${user.lastName}` : 'Administrator'}</p>
+            <p className="text-[11px] text-white/40 leading-tight">{user?.role ?? 'Admin'}</p>
           </div>
 
           {/* Avatar photo — circular, larger on mobile to match reference */}
           <img
-            src={avatar}
-            alt="Joseph Wilson"
+            src={user?.avatarUrl || avatar}
+            alt={user ? `${user.firstName} ${user.lastName}` : 'Administrator'}
             className="w-9 h-9 lg:w-8 lg:h-8 rounded-full object-cover object-top ring-2 ring-white/20 flex-shrink-0"
           />
         </div>

@@ -4,6 +4,7 @@ import { authApi } from "@/api/auth.api";
 import { queryKeys } from "@/lib/query-keys";
 import { useAuthStore } from "@/stores/auth.store";
 import { tokenStorage } from "@/lib/token-storage";
+import { ApiError } from "@/lib/errors";
 
 interface UseCurrentUserOptions {
   enabled?: boolean;
@@ -29,10 +30,10 @@ export function useCurrentUser(options: UseCurrentUserOptions = {}) {
   }, [query.data, setUser]);
 
   useEffect(() => {
-    if (query.isError) {
+    if (query.error instanceof ApiError && query.error.status === 401) {
       clearAuth();
     }
-  }, [query.isError, clearAuth]);
+  }, [query.error, clearAuth]);
 
   return query;
 }

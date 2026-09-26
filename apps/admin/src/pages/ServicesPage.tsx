@@ -1,0 +1,19 @@
+import { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Plus, Trash2 } from "lucide-react";
+import { adminApi, type ServiceInput } from "@/api/admin.api";
+import { getErrorMessage } from "@joe-wilson/shared/lib/errors";
+
+const blank: ServiceInput = { slug:"", title:"", tagline:"", description:"", coverImageUrl:"", isPublished:false, orderIndex:0 };
+function ServiceForm({ initial, label, pending, onSubmit }: { initial:ServiceInput; label:string; pending:boolean; onSubmit:(input:ServiceInput)=>void }) {
+  const [item, setItem] = useState(initial);
+  return <form onSubmit={e=>{e.preventDefault();onSubmit(item);}} className="bg-white border p-5 grid md:grid-cols-2 gap-3"><input required value={item.title} onChange={e=>setItem({...item,title:e.target.value})} className="border p-3" placeholder="Service title"/><input required pattern="[a-z0-9-]+" value={item.slug} onChange={e=>setItem({...item,slug:e.target.value})} className="border p-3" placeholder="Slug, e.g. live-performance"/><input value={item.tagline??""} onChange={e=>setItem({...item,tagline:e.target.value})} className="md:col-span-2 border p-3" placeholder="Short tagline"/><textarea value={item.description??""} onChange={e=>setItem({...item,description:e.target.value})} className="md:col-span-2 border p-3 min-h-28" placeholder="Public service description"/><input type="url" value={item.coverImageUrl??""} onChange={e=>setItem({...item,coverImageUrl:e.target.value})} className="border p-3" placeholder="Cover image URL from Media Library"/><label className="text-sm">Display order<input type="number" min="0" value={item.orderIndex} onChange={e=>setItem({...item,orderIndex:Number(e.target.value)})} className="block mt-1 w-full border p-3"/></label><label className="flex items-center gap-2"><input type="checkbox" checked={item.isPublished} onChange={e=>setItem({...item,isPublished:e.target.checked})}/>Publish on website</label><button disabled={pending} className="justify-self-end bg-brand text-white px-5 py-3">{label}</button></form>;
+}
+export default function ServicesPage() {
+  const qc=useQueryClient(); const q=useQuery({queryKey:["admin","services"],queryFn:adminApi.services}); const [newItem,setNewItem]=useState(blank);
+  const invalidate=()=>qc.invalidateQueries({queryKey:["admin","services"]});
+  const create=useMutation({mutationFn:adminApi.createService,onSuccess:()=>{setNewItem({...blank,orderIndex:(q.data??[]).length});invalidate();}});
+  const update=useMutation({mutationFn:({id,input}:{id:string;input:ServiceInput})=>adminApi.updateService(id,input),onSuccess:invalidate}); const remove=useMutation({mutationFn:adminApi.deleteService,onSuccess:invalidate});
+  const error=q.error||create.error||update.error||remove.error;
+  return <div className="p-5 lg:p-7 max-w-[1100px] mx-auto space-y-6"><div><p className="text-[11px] font-bold text-brand uppercase">Public content</p><h1 className="text-3xl font-bold">Services</h1><p className="text-sm text-gray-500">Published services drive the website listing, detail pages and quote form.</p></div>{error&&<p className="bg-red-50 p-3 text-red-700">{getErrorMessage(error)}</p>}{q.isPending?<p>Loading services…</p>:<div className="space-y-4">{q.data?.map(record=><div key={record.id}><ServiceForm initial={record} pending={update.isPending} onSubmit={input=>update.mutate({id:record.id,input})} label="Save service"/><button onClick={()=>confirm(`Delete ${record.title}?`)&&remove.mutate(record.id)} className="mt-2 text-red-600 flex gap-1 text-sm"><Trash2 size={14}/>Delete service</button></div>)}</div>}<section><h2 className="font-semibold mb-3 flex gap-2"><Plus size={17}/>Add service</h2><ServiceForm initial={newItem} pending={create.isPending} onSubmit={input=>create.mutate(input)} label="Create service"/></section></div>;
+}

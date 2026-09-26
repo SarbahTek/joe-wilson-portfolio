@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import MembersNavbar from "../components/MembersNavbar";
 import Footer from "@/components/feature/Footer";
 import CTASection from "@/components/feature/CTASection";
-import { ChevronDown, ChevronUp, Edit2 } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { useAuthStore } from "@/stores/auth.store";
 import { useUpdateProfile } from "@/hooks/auth/useUpdateProfile";
 import { useLogout } from "@/hooks/auth/useLogout";
@@ -122,13 +122,10 @@ function IdentitySection() {
       <div className="flex items-center gap-4 mb-8">
         <div className="relative w-14 h-14 rounded-sm overflow-hidden bg-gray-200">
           <img src={avatarUrl} alt="Profile" className="w-full h-full object-cover" />
-          <button className="absolute bottom-1 right-1 bg-white p-1 rounded-full shadow-sm cursor-pointer">
-            <Edit2 size={10} className="text-gray-600" />
-          </button>
         </div>
         <div>
           <h3 className="text-sm font-bold text-[#1a1a1a] mb-0.5">Profile Identity</h3>
-          <p className="text-xs text-gray-500">Update your photo and personal details.</p>
+          <p className="text-xs text-gray-500">Update your personal details.</p>
         </div>
       </div>
 
@@ -176,49 +173,13 @@ function IdentitySection() {
 function SecuritySection() {
   return (
     <AccordionSection title="SECURITY">
-      <div className="max-w-[400px] mb-6">
-        <label className="block text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-2">
-          CURRENT PASSWORD
-        </label>
-        <input
-          type="password"
-          defaultValue="123456"
-          className="w-full bg-transparent border border-gray-300 px-4 py-3 text-lg tracking-[0.2em] text-[#1a1a1a] focus:outline-none focus:border-[#077DA7]"
-        />
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <div>
-          <label className="block text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-2">
-            NEW PASSWORD
-          </label>
-          <input
-            type="password"
-            defaultValue="123456"
-            className="w-full bg-transparent border border-gray-300 px-4 py-3 text-lg tracking-[0.2em] text-[#1a1a1a] focus:outline-none focus:border-[#077DA7]"
-          />
-        </div>
-        <div>
-          <label className="block text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-2">
-            CONFIRM PASSWORD
-          </label>
-          <input
-            type="password"
-            defaultValue="123456"
-            className="w-full bg-transparent border border-gray-300 px-4 py-3 text-lg tracking-[0.2em] text-[#1a1a1a] focus:outline-none focus:border-[#077DA7]"
-          />
-        </div>
-      </div>
-
-      <div>
-        <button className="bg-white border border-gray-300 text-[#1a1a1a] text-[10px] font-bold px-6 py-3 uppercase tracking-widest hover:border-gray-400 transition-colors rounded-none">
-          CHANGE PASSWORD
-        </button>
-      </div>
+      <p className="text-sm text-gray-600 mb-4">Use a password reset link to choose a new password.</p>
+      <Link to="/forgot-password" className="inline-block border border-gray-300 px-6 py-3 text-sm text-[#077DA7]">
+        Reset password
+      </Link>
     </AccordionSection>
   );
 }
-
 function BillingHistorySection() {
   const { data: payments = [], isLoading, isError, error } = useMyPayments();
 

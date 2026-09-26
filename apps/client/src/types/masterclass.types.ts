@@ -1,8 +1,12 @@
-export type MasterclassStatus = "DRAFT" | "PUBLISHED" | "ARCHIVED";
+export type MasterclassStatus = "draft" | "upcoming" | "active" | "completed";
 
-export type SessionStatus = "DRAFT" | "SCHEDULED" | "LIVE" | "COMPLETED" | "ARCHIVED";
+export type SessionStatus = "upcoming" | "live" | "completed";
 
 export interface Masterclass {
+  priceCents: number;
+  coverImageUrl?: string | null;
+  sessionsCount?: number;
+  isPublished?: boolean;
   id: string;
   title: string;
   description: string;
@@ -19,11 +23,13 @@ export interface Masterclass {
 }
 
 export interface Session {
+  muxPlaybackId?: string | null;
+  liveStreamUrl?: string | null;
   id: string;
   masterclassId: string;
   title: string;
   description?: string;
-  order: number;
+  orderIndex: number;
   status: SessionStatus;
   durationSeconds?: number;
   scheduledAt?: string | null;
@@ -32,6 +38,7 @@ export interface Session {
 }
 
 export interface SessionProgress {
+  lastWatchedSeconds?: number;
   sessionId: string;
   watchedSeconds: number;
   completed: boolean;
@@ -39,6 +46,7 @@ export interface SessionProgress {
 }
 
 export interface SessionDetail extends Session {
+  muxSignedToken?: string | null;
   playbackUrl?: string | null;
   progress?: SessionProgress | null;
 }
@@ -49,6 +57,7 @@ export interface UpdateProgressInput {
 }
 
 export interface Enrollment {
+  progressPct?: number;
   id: string;
   userId: string;
   masterclassId: string;

@@ -29,7 +29,7 @@ export function useSessionUi(sessionId: string | undefined, index = 0) {
   return {
     ...query,
     uiSession: query.data ? mapSessionToUi(query.data, index) : undefined,
-    playbackUrl: query.data?.playbackUrl ?? query.data?.videoUrl ?? null,
-    progress: query.data?.progress,
+    playbackUrl: query.data?.playbackUrl ?? query.data?.videoUrl ?? query.data?.liveStreamUrl ?? null,
+    progress: query.data?.progress ? { ...query.data.progress, watchedSeconds: query.data.progress.lastWatchedSeconds ?? query.data.progress.watchedSeconds ?? 0 } : undefined,
   };
 }

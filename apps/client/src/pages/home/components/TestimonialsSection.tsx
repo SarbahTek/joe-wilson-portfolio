@@ -2,7 +2,9 @@ import homeTestimonials from "../../../assets/home/hometestimonials.jpg";
 import { useTestimonialCards } from "@/hooks/content/useTestimonialCards";
 
 export default function TestimonialsSection() {
-  const { cards: testimonials } = useTestimonialCards();
+  const { cards: testimonials, isPending, error } = useTestimonialCards();
+
+  if (!isPending && !error && testimonials.length === 0) return null;
 
   return (
     <section
@@ -14,6 +16,8 @@ export default function TestimonialsSection() {
       </h2>
 
       <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-4 md:gap-8 md:grid-cols-3">
+        {isPending && <p className="text-white/70 text-center md:col-span-3">Loading testimonials…</p>}
+        {error && <p className="text-red-300 text-center md:col-span-3">Testimonials are temporarily unavailable.</p>}
         {testimonials.map((t, i) => (
           <div key={i} className="flex flex-col border border-white/20 bg-transparent p-5 md:min-h-[260px] md:p-6">
             {/* Stars */}
@@ -31,13 +35,13 @@ export default function TestimonialsSection() {
 
             {/* Author */}
             <div className="flex items-center gap-3">
-              <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded-full">
+                {t.avatar && <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded-full">
                 <img
                   src={t.avatar}
                   alt={t.name}
                   className="h-full w-full object-cover object-top"
                 />
-              </div>
+                </div>}
               <div className="flex items-center gap-1.5 font-inter text-[14px] text-white">
                 <p>{t.name}</p>
                 <span className="text-white/70">/</span>

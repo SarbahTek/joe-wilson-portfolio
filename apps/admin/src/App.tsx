@@ -12,19 +12,26 @@ import PaymentsPage     from '@/pages/PaymentsPage';
 import SettingsPage     from '@/pages/SettingsPage';
 import AccountPage      from '@/pages/AccountPage';
 import QuoteRequestsPage from '@/pages/QuoteRequestsPage';
+import LoginPage from '@/pages/LoginPage';
+import ProtectedAdminRoute from '@/components/auth/ProtectedAdminRoute';
+import ServicesPage from '@/pages/ServicesPage';
+import EventsPage from '@/pages/EventsPage';
 
 export default function App() {
   return (
     <Routes>
-      {/* Redirect root to dashboard */}
-      <Route path="/" element={<Navigate to="/admin/dashboard" replace />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/" element={<Navigate to="/login" replace />} />
 
       {/* Admin section — wrapped in shared layout */}
+      <Route element={<ProtectedAdminRoute />}>
       <Route path="/admin" element={<DashboardLayout />}>
         <Route index element={<Navigate to="dashboard" replace />} />
         <Route path="dashboard"    element={<DashboardPage />} />
         <Route path="masterclasses" element={<MasterclassesPage />} />
         <Route path="masterclasses/:id" element={<MasterclassDetailPage />} />
+        <Route path="services" element={<ServicesPage />} />
+        <Route path="events" element={<EventsPage />} />
         <Route path="users"        element={<UsersPage />} />
         <Route path="users/:id"     element={<UserDetailPage />} />
         <Route path="inquiries"    element={<InquiriesPage />} />
@@ -33,6 +40,7 @@ export default function App() {
         <Route path="settings"     element={<SettingsPage />} />
         <Route path="account"      element={<AccountPage />} />
         <Route path="quote-requests" element={<QuoteRequestsPage />} />
+      </Route>
       </Route>
 
       {/* Catch-all fallback */}

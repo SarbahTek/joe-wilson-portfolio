@@ -26,7 +26,7 @@ export interface SubmitInquiryInput {
   email: string;
   message: string;
   phone?: string;
-  name?: string;
+  name: string;
   type?: InquiryType;
 }
 
@@ -42,10 +42,11 @@ export interface Service {
   id: string;
   slug: string;
   title: string;
-  description: string;
-  imageUrl?: string | null;
-  published: boolean;
-  order?: number;
+  tagline?: string | null;
+  description?: string | null;
+  coverImageUrl?: string | null;
+  isPublished: boolean;
+  orderIndex: number;
 }
 
 export interface Event {
@@ -53,22 +54,18 @@ export interface Event {
   title: string;
   description?: string;
   location?: string;
-  startsAt: string;
-  endsAt?: string | null;
-  imageUrl?: string | null;
-  published: boolean;
+  eventDate: string;
+  isPublished: boolean;
 }
 
 export interface Testimonial {
+  quote: string;
+  authorName: string;
+  authorOrg?: string;
+  isFeatured: boolean;
+  orderIndex: number;
   id: string;
-  title?: string;
-  name: string;
-  role?: string;
-  text: string;
   avatarUrl?: string | null;
-  rating?: number;
-  published: boolean;
-  order?: number;
 }
 
 export type SettingsMap = Record<string, string | number | boolean | null>;

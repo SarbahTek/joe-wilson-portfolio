@@ -8,6 +8,6 @@ export const sessionsApi = {
   },
 
   updateProgress(id: string, input: UpdateProgressInput) {
-    return apiClient.post(`/sessions/${id}/progress`, input).then(unwrapData);
+    return apiClient.post(`/sessions/${id}/progress`, { lastWatchedSeconds: input.watchedSeconds, completed: input.completed }).then(unwrapData);
   },
 };

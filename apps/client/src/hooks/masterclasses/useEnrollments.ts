@@ -10,6 +10,6 @@ export function useMyEnrollments() {
     select: (enrollments) =>
       enrollments
         .filter((e) => e.masterclass)
-        .map((e) => mapMasterclassToCohort(e.masterclass!, [], e)),
+        .map((e) => ({ ...mapMasterclassToCohort(e.masterclass!, [], e), progressPercent: e.progressPct ?? e.progressPercent ?? 0 })),
   });
 }

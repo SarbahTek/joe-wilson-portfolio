@@ -6,37 +6,14 @@ import { useMyEnrollments } from "@/hooks/masterclasses/useEnrollments";
 import { getErrorMessage } from "@/lib/errors";
 import heroImg from "@/assets/home/basemasterclass2.jpg";
 
-/* ── Mock data ── */
-const stats = [
-  { icon: "ri-play-circle-line", label: "Sessions Watched", value: "12", color: "#077DA7" },
-  { icon: "ri-book-open-line", label: "Active Courses", value: "3", color: "#2e7d32" },
-  { icon: "ri-trophy-line", label: "Completed Courses", value: "2", color: "#e65100" },
-  { icon: "ri-time-line", label: "Hours Learned", value: "38h", color: "#7b1fa2" },
-];
-
-const recentActivity = [
-  { sessionTitle: "The Architecture of Rhythm", cohortTitle: "Advanced Sound Design", time: "2 hours ago", status: "completed" },
-  { sessionTitle: "Pocket & Timing Fundamentals", cohortTitle: "Advanced Sound Design", time: "Yesterday", status: "live" },
-  { sessionTitle: "Harmonic Foundations", cohortTitle: "Modern Jazz Theory", time: "3 days ago", status: "completed" },
-  { sessionTitle: "Scoring Intro", cohortTitle: "Scoring For Film", time: "5 days ago", status: "completed" },
-];
-
-const upcomingSessions = [
-  { sessionTitle: "Slap Technique & Tone Shaping", cohortTitle: "Advanced Sound Design", date: "May 18, 2026", time: "6:00 PM GMT" },
-  { sessionTitle: "Modal Interchange", cohortTitle: "Modern Jazz Theory", date: "May 20, 2026", time: "5:00 PM GMT" },
-  { sessionTitle: "Theme Development", cohortTitle: "Scoring For Film", date: "May 23, 2026", time: "4:00 PM GMT" },
-];
-
-
-const statusColor: Record<string, string> = {
-  completed: "#2e7d32",
-  live: "#077DA7",
-  upcoming: "#e65100",
-};
-
 export default function DashboardPage() {
   const { data: enrollments = [], isLoading, isError, error } = useMyEnrollments();
   const activeCohorts = enrollments.filter((c) => c.status === "ACTIVE").slice(0, 3);
+  const stats = [
+    { icon: "ri-book-open-line", label: "Enrolled Courses", value: isLoading || isError ? "—" : String(enrollments.length), color: "#077DA7" },
+    { icon: "ri-play-circle-line", label: "Active Courses", value: isLoading || isError ? "—" : String(enrollments.filter(c => c.status === "ACTIVE").length), color: "#2e7d32" },
+    { icon: "ri-trophy-line", label: "Completed Courses", value: isLoading || isError ? "—" : String(enrollments.filter(c => c.progressPercent >= 100).length), color: "#e65100" },
+  ];
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -133,6 +110,7 @@ export default function DashboardPage() {
               <p className="text-sm text-red-600">{getErrorMessage(error)}</p>
             )}
             <div className="flex flex-col gap-4">
+              {!isLoading && !isError && activeCohorts.length === 0 && <p className="text-sm text-gray-500">No active masterclasses yet.</p>}
               {activeCohorts.map((cohort) => (
                 <Link
                   key={cohort.id}
@@ -155,7 +133,7 @@ export default function DashboardPage() {
                     <div className="mt-2 w-full h-[4px] bg-gray-100 rounded-full overflow-hidden">
                       <div
                         className="h-full bg-[#077DA7] rounded-full"
-                        style={{ width: `${Math.floor(Math.random() * 50) + 20}%` }}
+                        style={{ width: `${cohort.progressPercent}%` }}
                       />
                     </div>
                   </div>
@@ -169,26 +147,7 @@ export default function DashboardPage() {
           <div className="bg-white border border-gray-100 p-6 shadow-sm">
             <h3 className="text-[15px] font-bold text-[#1a1a1a] mb-5">Upcoming Sessions</h3>
             <div className="flex flex-col gap-4">
-              {upcomingSessions.map((u, i) => (
-                <div key={i} className="flex items-start gap-3 pb-4 border-b border-gray-100 last:border-b-0 last:pb-0">
-                  {/* Date box */}
-                  <div className="w-10 flex-shrink-0 flex flex-col items-center justify-center bg-[#077DA7]/10 py-2">
-                    <span className="text-[10px] font-black text-[#077DA7] uppercase leading-none">
-                      {u.date.split(" ")[0]}
-                    </span>
-                    <span className="text-[18px] font-black text-[#077DA7] leading-tight">
-                      {u.date.split(" ")[1].replace(",", "")}
-                    </span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[12px] font-bold text-[#1a1a1a] leading-snug">{u.sessionTitle}</p>
-                    <p className="text-[11px] text-gray-400 mt-0.5">{u.cohortTitle}</p>
-                    <p className="text-[10px] text-gray-400 mt-1 flex items-center gap-1">
-                      <i className="ri-time-line" />{u.time}
-                    </p>
-                  </div>
-                </div>
-              ))}
+              <p className="text-sm text-gray-500">Open an enrolled masterclass to view its session schedule.</p>
             </div>
           </div>
 
@@ -203,33 +162,7 @@ export default function DashboardPage() {
             </Link>
           </div>
           <div className="flex flex-col divide-y divide-gray-100">
-            {recentActivity.map((a, i) => (
-              <div key={i} className="flex items-center gap-4 py-3 first:pt-0 last:pb-0">
-                {/* Status icon */}
-                <div
-                  className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
-                  style={{ backgroundColor: `${statusColor[a.status]}15` }}
-                >
-                  <i
-                    className={`text-sm ${a.status === "completed" ? "ri-check-line" : "ri-live-line"}`}
-                    style={{ color: statusColor[a.status] }}
-                  />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-[12px] font-bold text-[#1a1a1a] leading-snug">{a.sessionTitle}</p>
-                  <p className="text-[11px] text-gray-400">{a.cohortTitle}</p>
-                </div>
-                <div className="flex-shrink-0 text-right">
-                  <span
-                    className="text-[10px] font-bold px-2 py-0.5 rounded-full"
-                    style={{ backgroundColor: `${statusColor[a.status]}15`, color: statusColor[a.status] }}
-                  >
-                    {a.status === "completed" ? "Completed" : "Watched Live"}
-                  </span>
-                  <p className="text-[10px] text-gray-400 mt-1">{a.time}</p>
-                </div>
-              </div>
-            ))}
+            <p className="text-sm text-gray-500">Your enrolled masterclasses show your saved progress.</p>
           </div>
         </div>
 

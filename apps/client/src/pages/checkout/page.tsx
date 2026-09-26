@@ -2,7 +2,10 @@ import { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Navbar from "@/components/feature/Navbar";
 import { useCreateCheckout } from "@/hooks/payments/usePayments";
-import { useMasterclasses } from "@/hooks/masterclasses/useMasterclasses";
+import { useQuery } from "@tanstack/react-query";
+import { masterclassesApi } from "@/api/masterclasses.api";
+import { queryKeys } from "@/lib/query-keys";
+import { formatPaymentAmount } from "@/lib/mappers/masterclass.mapper";
 import { getErrorMessage } from "@/lib/errors";
 
 export default function CheckoutPage() {
@@ -10,16 +13,18 @@ export default function CheckoutPage() {
   const [searchParams] = useSearchParams();
   const [checkoutError, setCheckoutError] = useState("");
   const createCheckout = useCreateCheckout();
-  const { data: masterclasses = [] } = useMasterclasses();
+  const { data: masterclasses = [], isPending, error } = useQuery({ queryKey: queryKeys.masterclasses.all, queryFn: masterclassesApi.list });
   const isSuccess = searchParams.get("success") === "true";
 
   const masterclassId = searchParams.get("masterclassId") ?? masterclasses[0]?.id;
+  const masterclass = masterclasses.find(item => item.id === masterclassId);
+  const price = masterclass ? formatPaymentAmount(masterclass.priceCents, masterclass.currency ?? "USD") : "—";
 
   const handlePayment = async (e: React.FormEvent) => {
     e.preventDefault();
     setCheckoutError("");
 
-    if (!masterclassId) {
+    if (!masterclass || createCheckout.isPending) {
       setCheckoutError("No masterclass is available for checkout.");
       return;
     }
@@ -30,8 +35,8 @@ export default function CheckoutPage() {
     try {
       await createCheckout.mutateAsync({
         masterclassId,
-        successUrl: `${origin}${basePath}/checkout?success=true`,
-        cancelUrl: `${origin}${basePath}/checkout`,
+        successUrl: `${origin}${basePath}/checkout?success=true&masterclassId=${encodeURIComponent(masterclass.id)}`,
+        cancelUrl: `${origin}${basePath}/checkout?masterclassId=${encodeURIComponent(masterclass.id)}`,
       });
     } catch (error) {
       setCheckoutError(getErrorMessage(error, "Unable to start checkout. Please try again."));
@@ -43,12 +48,7 @@ export default function CheckoutPage() {
       <div className="min-h-screen bg-white">
         {/* ── Hero ── */}
         <div
-          className="relative h-[250px] md:h-[350px] overflow-hidden"
-          style={{
-            backgroundImage: `url(https://readdy.ai/api/search-image?query=dark%20concert%20stage%20with%20dramatic%20lighting%2C%20bass%20guitar%20musician%20performing%2C%20deep%20shadows%2C%20moody%20atmosphere%2C%20professional%20music%20photography%2C%20dark%20teal%20and%20black%20tones%2C%20cinematic%20wide%20shot&width=1440&height=400&seq=masterclass-hero-bg&orientation=landscape)`,
-            backgroundSize: "cover",
-            backgroundPosition: "center top",
-          }}
+          className="relative h-[250px] md:h-[350px] overflow-hidden bg-[#1a1a1a]"
         >
           <div className="absolute inset-0 bg-black/50" />
           <Navbar />
@@ -79,10 +79,10 @@ export default function CheckoutPage() {
               <i className="ri-check-line text-[#077DA7] text-3xl" />
             </div>
             <h2 className="font-inter text-[24px] md:text-[32px] font-bold text-[#1a1a1a] mb-3">
-              Payment Successful!
+              Checkout submitted
             </h2>
             <p className="text-[#6b7280] text-[14px] md:text-[15px] mb-8 leading-[1.6]">
-              Welcome to the Joe Wilson Masterclass. Your lifetime access has been granted and your login details have been emailed to you.
+              Your access will appear in the members area once your payment has been confirmed. If it is still processing, please check again shortly.
             </p>
             <button
               onClick={() => navigate("/members")}
@@ -100,12 +100,7 @@ export default function CheckoutPage() {
     <div className="min-h-screen bg-white font-inter">
       {/* ── Masterclass Hero ── */}
       <div
-        className="relative h-[250px] md:h-[350px] overflow-hidden"
-        style={{
-          backgroundImage: `url(https://readdy.ai/api/search-image?query=dark%20concert%20stage%20with%20dramatic%20lighting%2C%20bass%20guitar%20musician%20performing%2C%20deep%20shadows%2C%20moody%20atmosphere%2C%20professional%20music%20photography%2C%20dark%20teal%20and%20black%20tones%2C%20cinematic%20wide%20shot&width=1440&height=400&seq=masterclass-hero-bg&orientation=landscape)`,
-          backgroundSize: "cover",
-          backgroundPosition: "center top",
-        }}
+        className="relative h-[250px] md:h-[350px] overflow-hidden bg-[#1a1a1a]"
       >
         <div className="absolute inset-0 bg-black/50" />
         <Navbar />
@@ -136,64 +131,17 @@ export default function CheckoutPage() {
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 pb-24">
           {/* Left Column: Form */}
           <div className="flex-1 lg:max-w-[500px]">
+            {isPending && <p role="status">Loading checkout...</p>}
+            {error && <p role="alert" className="text-red-600 mb-4">{getErrorMessage(error)}</p>}
+            {!isPending && !error && !masterclass && <p role="status" className="mb-4">This masterclass is not currently available. <Link to="/masterclass" className="underline">View masterclasses</Link></p>}
             {checkoutError && (
               <div className="mb-6 px-4 py-3 bg-red-50 border border-red-200 text-red-600 text-sm">
                 {checkoutError}
               </div>
             )}
             <form onSubmit={handlePayment}>
-              {/* Payment Details Section */}
-              <div className="mb-12">
-                <h3 className="text-[#077DA7] text-[14px] font-bold uppercase tracking-wide mb-6">
-                  Payment Details
-                </h3>
-
-                <div className="space-y-6">
-                  <div>
-                    <label className="block text-[#4b5563] text-[11px] font-bold uppercase mb-2">Payment Method</label>
-                    <div className="relative">
-                      <input required type="text" className="w-full border border-gray-300 p-3.5 text-[14px] focus:outline-none focus:border-[#077DA7]" placeholder="Card number" />
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" className="absolute right-3 top-1/2 -translate-y-1/2 h-5" />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-[#4b5563] text-[11px] font-bold uppercase mb-2">Expiration Date</label>
-                      <input required type="text" className="w-full border border-gray-300 p-3.5 text-[14px] focus:outline-none focus:border-[#077DA7]" placeholder="05/26" />
-                    </div>
-                    <div>
-                      <label className="block text-[#4b5563] text-[11px] font-bold uppercase mb-2">Security Code</label>
-                      <input required type="text" className="w-full border border-gray-300 p-3.5 text-[14px] focus:outline-none focus:border-[#077DA7]" placeholder="223" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Billing Address Section */}
-              <div>
-                <h3 className="text-[#077DA7] text-[14px] font-bold uppercase tracking-wide mb-6">
-                  Billing Address
-                </h3>
-
-                <div className="space-y-6">
-                  <div>
-                    <label className="block text-[#4b5563] text-[11px] font-bold uppercase mb-2">Full Name</label>
-                    <input required type="text" className="w-full border border-gray-300 p-3.5 text-[14px] focus:outline-none focus:border-[#077DA7] placeholder:text-gray-300" placeholder="eg. Ben Doe" />
-                  </div>
-
-                  <div>
-                    <label className="block text-[#4b5563] text-[11px] font-bold uppercase mb-2">Country or Region</label>
-                    <input required type="text" className="w-full border border-gray-300 p-3.5 text-[14px] focus:outline-none focus:border-[#077DA7] placeholder:text-gray-300" placeholder="Ghana" />
-                  </div>
-
-                  <div>
-                    <label className="block text-[#4b5563] text-[11px] font-bold uppercase mb-2">Address Line</label>
-                    <input required type="text" className="w-full border border-gray-300 p-3.5 text-[14px] focus:outline-none focus:border-[#077DA7] placeholder:text-gray-300" placeholder="Address Line 1" />
-                  </div>
-                </div>
-              </div>
-              
+              <h3 className="text-[#077DA7] text-sm font-bold uppercase mb-6">Secure checkout</h3>
+              <p className="text-gray-600 leading-relaxed">Continue to our payment provider to enter your payment details and review the final total.</p>
               {/* Mobile Submit Button (hidden on desktop, summary button handles it, but semantic HTML needs a submit inside form if used outside) */}
               <button id="hidden-submit" type="submit" className="hidden" />
             </form>
@@ -207,7 +155,7 @@ export default function CheckoutPage() {
                   Lifetime Access
                 </p>
                 <h2 className="text-[#1a1a1a] text-[20px] font-bold uppercase mb-6">
-                  Complete Mastery Suite
+                  {masterclass?.title ?? "Masterclass"}
                 </h2>
 
                 <ul className="space-y-4 mb-10">
@@ -222,21 +170,21 @@ export default function CheckoutPage() {
                 <div className="border-t border-gray-200 pt-6 space-y-4 text-[13px] text-[#374151] mb-6">
                   <div className="flex justify-between">
                     <span>One time payment</span>
-                    <span>$50.00</span>
+                    <span>{price}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Tax</span>
-                    <span>$0.00</span>
+                    <span>Calculated at checkout</span>
                   </div>
                   <div className="flex justify-between font-bold text-[#1a1a1a] mt-2">
-                    <span>Due today</span>
-                    <span>$50.00</span>
+                    <span>Course price</span>
+                    <span>{price}</span>
                   </div>
                 </div>
 
                 <button
                   onClick={() => document.getElementById("hidden-submit")?.click()}
-                  disabled={createCheckout.isPending}
+                  disabled={createCheckout.isPending || isPending || Boolean(error) || !masterclass}
                   className="w-full bg-[#077DA7] text-white py-4 text-[13px] font-bold uppercase tracking-wide hover:bg-[#06658a] transition-colors disabled:opacity-70 disabled:cursor-not-allowed mb-6"
                 >
                   {createCheckout.isPending ? (
@@ -248,9 +196,7 @@ export default function CheckoutPage() {
                   )}
                 </button>
 
-                <p className="text-[#6b7280] text-[11px] leading-[1.6]">
-                  A one time payment.By Securing your spot you have unlimited access to the platform.By Subscribiing you agree to our <a href="#" className="underline">Terms of Use</a> and have read our <a href="#" className="underline">Privacy Policy</a> and authorize us to charge your payment method
-                </p>
+                <p className="text-[#6b7280] text-[11px] leading-[1.6]">Review the final amount on the secure payment page before paying.</p>
               </div>
             </div>
           </div>
